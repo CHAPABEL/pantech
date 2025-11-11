@@ -1,0 +1,281 @@
+.app_popupSend {
+  position: fixed;
+  display: flex;
+  inset: 0;
+  z-index: 900;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  animation: fadeIn 0.3s ease forwards;
+  pointer-events: all;
+  .popupSend_content {
+    @include column;
+    background: #fff;
+    pointer-events: all;
+    padding: 50px;
+    gap: 20px;
+    border-radius: 15px;
+
+    .content_textCon {
+      @include column;
+      gap: 18px;
+      .textCon_top {
+        display: flex;
+        align-items: center;
+
+        justify-content: space-between;
+
+        .top_main {
+          font-size: 38px;
+          font-weight: 700;
+        }
+        .top_svg {
+          cursor: pointer;
+          &:hover {
+            scale: 105%;
+          }
+        }
+      }
+      .textCon_disc {
+        font-size: 20px;
+        width: 80%;
+      }
+    }
+    .content_inputCon {
+      @include column;
+      gap: 10px;
+      .inputCon_textArea {
+        height: 200px;
+      }
+
+      .inputCon_input,
+      .inputCon_textArea,
+      .inputCon_inputPhone {
+        padding: 20px;
+        resize: none;
+        border: 0;
+        width: 100%;
+        font-size: 20px;
+        border-radius: 10px;
+        color: #707882;
+        background: #ebf0f8;
+
+        &:focus {
+          outline: 2px #4287e7 solid;
+        }
+      }
+      .inputCon_flex {
+        display: flex;
+        gap: 10px;
+        flex: 2;
+      }
+    }
+    .content_buttons {
+      display: inline-block;
+
+      .buttons_fileCon {
+        display: flex;
+
+        align-items: center;
+        gap: 10px;
+        width: 41%;
+        border-radius: 10px;
+        padding: 5px;
+        transition: all;
+        transition-duration: 100ms;
+        cursor: pointer;
+        .fileCon_input {
+          display: none;
+        }
+        .fileCon_text {
+          font-size: 20px;
+          color: #707882;
+        }
+        .fileCon_img {
+          width: 20px;
+        }
+
+        &:hover {
+          scale: 101%;
+          background: #f8f8f8;
+        }
+      }
+      .buttons_selectbox {
+        display: flex;
+        margin-top: 10px;
+        margin-bottom: 20px;
+        padding-left: 5px;
+        align-items: center;
+        .selectbox_custom {
+          .custom_input {
+            display: none;
+          }
+
+          .custom_span {
+            width: 20px;
+            height: 20px;
+            border: 2px solid $button-color;
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 8px;
+            border-radius: 4px;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.2s;
+          }
+
+          .custom_input:checked + .custom_span {
+            background-color: $button-color;
+            border-color: $button-color;
+
+            &::after {
+              content: "";
+              position: absolute;
+              left: 4px;
+              top: -1px;
+              width: 6px;
+              height: 12px;
+              border: solid white;
+              border-width: 0 2px 2px 0;
+              transform: rotate(45deg);
+            }
+          }
+        }
+
+        .selectbox_text {
+          color: $button-color;
+
+          cursor: pointer;
+          font-size: 20px;
+        }
+      }
+      .buttons_btn {
+        font-size: 20px;
+        transition: all;
+        padding-left: 5px;
+        transition-duration: 200ms;
+        padding: 10px 20px;
+        border-radius: 10px;
+        background: $button-color;
+        color: #fff;
+
+        &:hover {
+          background: $buttonHover-color;
+          scale: 101%;
+        }
+      }
+    }
+  }
+
+  .popupSend_success {
+    padding: 50px;
+    pointer-events: all;
+    background: #fff;
+    border-radius: 15px;
+    @include column;
+    gap: 25px;
+    transform: translateY(15px);
+    opacity: 0;
+    animation: successFadeIn 0.3s forwards;
+
+    .success_svg {
+      align-self: flex-end;
+      cursor: pointer;
+      transition: all;
+      transition-duration: 200ms;
+      &:hover {
+        scale: 105%;
+      }
+    }
+    .success_img {
+      width: 84px;
+      align-self: center;
+    }
+
+    .success_main {
+      font-size: 38px;
+      font-weight: 700;
+      color: #292929;
+    }
+
+    .success_text {
+      font-size: 24px;
+      color: #292929;
+      font-weight: 500;
+    }
+  }
+}
+.hide {
+  animation: fadeOut 0.3s ease forwards;
+}
+
+.app_popupSend::before {
+  position: fixed;
+  inset: 0;
+  background: transparent;
+  pointer-events: all;
+}
+
+@keyframes successFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(15px);
+    opacity: 0.8;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@media (max-width: 600px) {
+  .app_popupSend {
+    .popup_content {
+      padding: 30px 25px;
+    }
+
+    .popup_title {
+      font-size: 24px;
+    }
+
+    .popup_subtitle {
+      font-size: 16px;
+    }
+
+    .popup_form {
+      .form_row {
+        flex-direction: column;
+      }
+    }
+  }
+}

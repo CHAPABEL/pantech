@@ -1,0 +1,188 @@
+.services {
+  @include column;
+  gap: 50px;
+  .services_container {
+    display: flex;
+    background-color: $card-bg;
+    justify-content: space-between;
+    padding: 20px;
+    border-radius: 15px;
+    border: 1px $primary-color solid;
+    transition: all ease-in-out;
+    transition-duration: 200ms;
+    &:hover {
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      background-color: $primary-color;
+      .container_leftSide {
+        .leftSide_imageCon {
+          background-color: #fff;
+        }
+      }
+    }
+    .container_leftSide {
+      @include row;
+      gap: 50px;
+
+      .leftSide_imageCon {
+        @include row;
+        align-items: center;
+        justify-content: center;
+        background: $primary-color;
+        padding: 15px;
+        border-radius: 10px;
+      }
+
+      .leftSide_textCon {
+        @include column;
+        gap: 25px;
+        width: 60%;
+        .textCon_mainText {
+          font-size: 40px;
+          font-weight: 400;
+        }
+        .textCon_discription {
+          font-size: 20px;
+          color: #292929;
+        }
+      }
+    }
+
+    .container_buttonCon {
+      display: flex;
+      align-items: end;
+
+      .buttonCon_button {
+        color: white;
+        font-size: 24px;
+        padding: 10px 15px;
+        border-radius: 10px;
+        white-space: nowrap;
+        background: $button-color;
+        transition: all;
+        transition-duration: 200ms;
+
+        &:hover {
+          scale: 102%;
+          background: $buttonHover-color;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 1024px) {
+  .services {
+    .services_container {
+      padding: 15px;
+      .container_leftSide {
+        .leftSide_imageCon {
+          padding: 10px;
+          .imageCon_image {
+            width: 90%;
+            height: 80%;
+          }
+        }
+
+        .leftSide_textCon {
+          gap: 10px;
+          .textCon_mainText {
+            font-size: 35px;
+            text-align: center;
+            font-weight: 400;
+          }
+          .textCon_discription {
+            font-size: 20px;
+            text-align: center;
+            color: #292929;
+          }
+        }
+      }
+
+      .container_buttonCon {
+        .buttonCon_button {
+          color: white;
+          font-size: 15px;
+          padding: 8px 12px;
+          border-radius: 10px;
+          white-space: nowrap;
+          background: $button-color;
+          transition: all;
+          transition-duration: 200ms;
+
+          &:hover {
+            scale: 102%;
+            background: $buttonHover-color;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .services {
+    gap: 50px;
+    align-items: center;
+
+    .services_container {
+      @include column;
+      gap: 25px;
+      background-color: $card-bg;
+      justify-content: space-between;
+      width: 75%;
+      padding: 20px;
+      .container_leftSide {
+        @include column;
+
+        gap: 50px;
+
+        .leftSide_imageCon {
+          @include row;
+          width: 100%;
+          align-items: center;
+          justify-content: center;
+          background: $primary-color;
+          padding: 15px;
+          border-radius: 10px;
+        }
+
+        .leftSide_textCon {
+          @include column;
+          gap: 25px;
+          width: 100%;
+          .textCon_mainText {
+            font-size: 35px;
+            text-align: center;
+            font-weight: 400;
+          }
+          .textCon_discription {
+            font-size: 20px;
+            text-align: center;
+            color: #292929;
+          }
+        }
+      }
+
+      .container_buttonCon {
+        @include column;
+        align-items: center;
+
+        .buttonCon_button {
+          color: white;
+          font-size: 24px;
+          padding: 10px 15px;
+          border-radius: 10px;
+          white-space: nowrap;
+          background: $button-color;
+          transition: all;
+          transition-duration: 200ms;
+
+          &:hover {
+            scale: 102%;
+            background: $buttonHover-color;
+          }
+        }
+      }
+    }
+  }
+}

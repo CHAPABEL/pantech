@@ -1,0 +1,126 @@
+.tech_container {
+  @include column;
+  gap: 20px;
+  .container_buttons {
+    @include row;
+    gap: 20px;
+    overflow-x: auto;
+    width: 100%;
+    scroll-snap-type: x mandatory;
+    &::-webkit-scrollbar-thumb {
+      background: $primary-color;
+
+      border-radius: 20px;
+    }
+    .buttons_btn {
+      scroll-snap-align: start;
+      white-space: nowrap;
+      font-size: 20px;
+      font-weight: 500;
+      padding: 5px 40px;
+      background: #fff;
+      border-radius: 10px;
+      border: 1px $primary-color solid;
+    }
+  }
+  .container_info {
+    @include column;
+
+    height: 100%;
+    gap: 25px;
+    background: #fff;
+    border-radius: 10px;
+    border: 1px $primary-color solid;
+    padding: 40px 40px;
+
+    .info_mnText,
+    .info_list {
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      opacity: 1;
+      transform: translateY(0);
+
+      &.fadeOut {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+
+      &.fadeIn {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .info_mnText {
+      font-size: 30px;
+      font-weight: 600;
+    }
+    .info_list {
+      display: grid;
+
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+
+      .list_key {
+        font-size: 18px;
+        font-weight: 500;
+      }
+    }
+  }
+}
+@media (max-width: 1024px) {
+  .tech_container {
+    .container_info {
+      padding: 30px 30px;
+      height: 100%;
+    }
+  }
+}
+
+@media (max-width: 780px) {
+  .tech_container {
+    gap: 10px;
+    .container_buttons {
+      @include row;
+      gap: 5px;
+      overflow-x: auto;
+      width: 100%;
+      scroll-snap-type: x mandatory;
+      &::-webkit-scrollbar-thumb {
+        background: $primary-color;
+
+        border-radius: 20px;
+      }
+      .buttons_btn {
+        scroll-snap-align: start;
+        white-space: nowrap;
+        font-size: 18px;
+        font-weight: 500;
+        padding: 5px 25px;
+        background: #fff;
+        border-radius: 10px;
+        border: 1px $primary-color solid;
+      }
+    }
+
+    .container_info {
+      padding: 30px 30px;
+      height: 100%;
+
+      .info_mnText {
+        font-size: 25px;
+        font-weight: 600;
+      }
+      .info_list {
+        display: grid;
+
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+
+        .list_key {
+          font-size: 18px;
+          font-weight: 500;
+        }
+      }
+    }
+  }
+}

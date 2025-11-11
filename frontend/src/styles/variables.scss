@@ -1,0 +1,23 @@
+$app-bg: #ffffff;
+$card-bg: #fafcff;
+$primary-color: #bfd9ff;
+$button-color: #3075d8;
+$buttonHover-color: #327be1;
+$text-color: #292929;
+
+@mixin row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+@mixin column {
+  display: flex;
+  flex-direction: column;
+}
+
+@mixin maintext {
+  font-size: 35px;
+  color: #292929;
+  font-weight: 600;
+}
