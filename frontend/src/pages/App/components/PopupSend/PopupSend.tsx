@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { X } from "lucide-react";
+import { X, LoaderCircle } from "lucide-react";
 import styles from "./PopupSend.module.scss";
 
 type popupType = {
@@ -16,6 +16,8 @@ function PopupSend({ setProp }: popupType) {
   const [phoneVal, setphoneVal] = useState("");
   const [status, setStatus] = useState<number | null>(null);
   const [checkVal, setCheckVal] = useState(false);
+
+  const backendUrl = "/send-email";
 
   useEffect(() => {
     document.body.style.overflow = "hidden";
@@ -48,7 +50,8 @@ function PopupSend({ setProp }: popupType) {
       return;
     }
     try {
-      const response = await fetch("http://127.0.0.1:8000/send-email", {
+      setStatus(100);
+      const response = await fetch(backendUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(dataFormObject),
@@ -200,6 +203,10 @@ function PopupSend({ setProp }: popupType) {
           <span className={styles.success_text}>
             Мы свяжемся с вами в рабочее время
           </span>
+        </div>
+      ) : status == 100 ? (
+        <div className={styles.popupSend_loading}>
+          <LoaderCircle className={styles.loading_success} />
         </div>
       ) : (
         ""

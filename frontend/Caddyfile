@@ -1,4 +1,10 @@
 localhost {
     root * /web
     file_server
+
+    
+        handle /send-email* {
+        reverse_proxy backend:8000
+    }
+    
 }

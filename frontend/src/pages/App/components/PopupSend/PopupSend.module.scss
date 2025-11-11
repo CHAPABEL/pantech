@@ -210,12 +210,30 @@
 .hide {
   animation: fadeOut 0.3s ease forwards;
 }
+.popupSend_loading {
+  display: flex;
+  background: #fff;
+  width: 811px;
+  border-radius: 15px;
+  height: 368px;
+  align-items: center;
+  justify-content: center;
 
-.app_popupSend::before {
-  position: fixed;
-  inset: 0;
-  background: transparent;
-  pointer-events: all;
+  .loading_success {
+    width: 100px;
+    height: 100px;
+    color: $button-color;
+    animation: spin 1s linear infinite;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @keyframes successFadeIn {
