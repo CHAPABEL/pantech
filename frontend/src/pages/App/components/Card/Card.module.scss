@@ -101,6 +101,15 @@
   }
 }
 
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 @media (max-width: 1280px) {
   .app_productCards {
     .productCards_Container {

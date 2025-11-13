@@ -12,7 +12,7 @@ services:
     build:
       context: ./backend
       args:
-        FASTAPI_PORT: ${FASTAPI_PORT:-8000}
+        FASTAPI_PORT: ${FASTAPI_PORT:-8080}
     env_file:
       - ./.env
     ports:

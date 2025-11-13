@@ -1,11 +1,10 @@
 import styles from "./Header.module.scss";
 
 type headProp = {
-  prop: boolean;
-  setProp: React.Dispatch<React.SetStateAction<boolean>>;
+  setSelectedService: (service: string) => void;
 };
 
-function Header({ setProp }: headProp) {
+function Header({ setSelectedService }: headProp) {
   return (
     <header className={styles.header}>
       <div className={styles.header_leftSide}>
@@ -41,7 +40,7 @@ function Header({ setProp }: headProp) {
         </div>
         <button
           className={styles.rightSide_Contact}
-          onClick={() => setProp(true)}
+          onClick={() => setSelectedService("Не указано")}
         >
           Связаться с нами
         </button>

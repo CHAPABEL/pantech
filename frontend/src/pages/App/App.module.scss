@@ -394,3 +394,154 @@
     }
   }
 }
+
+@media (max-width: 430px) {
+  .app_main {
+    .main_initial {
+      height: 550px;
+      display: flex;
+      padding: 10px;
+      align-items: center;
+
+      .initial_image {
+        height: 40%;
+        opacity: 30%;
+        position: absolute;
+        z-index: 300;
+        top: 19px;
+        right: 20px;
+        width: 40%;
+
+        animation: bounce 5s infinite;
+      }
+
+      .initial_textCon {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        gap: 18px;
+        width: 100%;
+
+        .textCon_mainText {
+          display: flex;
+          justify-content: center;
+
+          .mainText_Pan {
+            display: inline-block;
+            vertical-align: middle;
+            font-weight: 600;
+            color: #3175d8;
+            font-size: 54px;
+          }
+
+          .mainText_tech {
+            display: inline-block;
+            vertical-align: middle;
+            font-weight: 600;
+            font-size: 54px;
+          }
+        }
+
+        .textCon_discriptionCon {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          padding-left: 3px;
+          .textCon_slogan {
+            font-size: 20px;
+            color: #292929;
+            font-weight: 600;
+          }
+          .textCon_discription {
+            text-align: center;
+            font-size: 18px;
+            font-weight: 500;
+            width: 100%;
+          }
+        }
+      }
+    }
+
+    .main_content {
+      .main_productCards {
+        display: flex;
+        flex-direction: column;
+        padding: 0px 70px;
+        gap: 25px;
+
+        .productCards_maintext {
+          font-size: 27px;
+          color: #292929;
+          font-weight: 600;
+        }
+      }
+
+      .main_services {
+        gap: 35px;
+        padding: 0px 70px;
+        .services_maintext {
+          font-size: 27px;
+          color: #292929;
+          font-weight: 600;
+        }
+      }
+      .main_projects {
+        padding: 0px 70px;
+        gap: 35px;
+        .projects_maintext {
+          font-size: 27px;
+          color: #292929;
+          font-weight: 600;
+        }
+      }
+      .main_tech {
+        background-color: #ebf0f8;
+        gap: 35px;
+        padding: 50px 50px;
+        .tech_maintext {
+          font-size: 27px;
+          color: #292929;
+          font-weight: 600;
+        }
+      }
+    }
+  }
+
+  .footer {
+    @include column;
+    padding: 80px 80px;
+    background: #bfd9ff;
+    gap: 50px;
+    .footer_mnText {
+      font-size: 28px;
+      font-weight: 600;
+      color: #3075d8;
+    }
+
+    .footer_linkCon {
+      display: flex;
+      flex-direction: column;
+      align-items: start;
+      gap: 15px;
+      .linCon_center {
+        display: flex;
+        display: none;
+
+        align-items: start;
+      }
+
+      .linkCon_links {
+        width: 70%;
+        display: flex;
+        gap: 15px;
+        align-items: start;
+
+        .links_link {
+          text-align: start;
+          font-size: 15px;
+        }
+      }
+    }
+  }
+}

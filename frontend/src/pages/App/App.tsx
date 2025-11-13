@@ -11,6 +11,14 @@ import { useState } from "react";
 function App() {
   const [state, setState] = useState(false);
   const [projectPopup, setProjectPopup] = useState(false);
+  const [selectedServ, setSelectedServ] = useState<string>("");
+
+  const handleSelectService = (service: string) => {
+    setSelectedServ(service);
+    setState(true);
+    console.log("Selected service:", service);
+  };
+
   return (
     <>
       <Helmet>
@@ -21,7 +29,7 @@ function App() {
         />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Helmet>
-      <Header prop={state} setProp={setState} />
+      <Header setSelectedService={handleSelectService} />
       <main className={styles.app_main}>
         <section className={styles.main_initial}>
           <div className={styles.initial_textCon}>
@@ -50,7 +58,7 @@ function App() {
           </div>
           <div id="services" className={styles.main_services}>
             <span className={styles.services_maintext}>Наши услуги</span>
-            <Services prop={state} setProp={setState} />
+            <Services setSelectedService={handleSelectService} />
           </div>
           <div id="projects" className={styles.main_projects}>
             <span className={styles.projects_maintext}>Наши проекты</span>
@@ -64,7 +72,13 @@ function App() {
         {projectPopup && (
           <PopupProject prop={projectPopup} setProp={setProjectPopup} />
         )}
-        {state && <PopupSend prop={state} setProp={setState} />}
+        {state && selectedServ && (
+          <PopupSend
+            selectedService={selectedServ}
+            prop={state}
+            setProp={setState}
+          />
+        )}
       </main>
       <footer className={styles.footer}>
         <span className={styles.footer_mnText}>Pan-Tech</span>

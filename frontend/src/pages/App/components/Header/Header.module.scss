@@ -13,6 +13,7 @@
   z-index: 600;
   align-items: center;
   justify-content: space-between;
+  box-shadow: 0 4px 15px #0000001a;
 
   .header_leftSide,
   .header_rightSide {
@@ -161,6 +162,49 @@
 
         .buttonCon_link {
           font-size: 14px;
+        }
+      }
+    }
+    .header_rightSide {
+      .rightSide_Contact {
+        padding: 3px 10px;
+      }
+      .rightSide_LinkCon {
+        display: none;
+        .Linkcon_adress {
+          font-size: 14px;
+        }
+      }
+    }
+  }
+  .header_rightSide {
+    .rightSide_Contact {
+      display: none;
+    }
+  }
+}
+
+@media (max-width: 430px) {
+  .header {
+    flex-direction: column;
+
+    padding: 10px 10px;
+    align-items: center;
+
+    .header_leftSide {
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      .leftSide_Logo {
+        display: none;
+      }
+      .leftSide_buttonCon {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+
+        .buttonCon_link {
+          font-size: 12px;
         }
       }
     }

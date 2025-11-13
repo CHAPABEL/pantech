@@ -5,17 +5,26 @@ import styles from "./PopupSend.module.scss";
 type popupType = {
   prop: boolean;
   setProp: React.Dispatch<React.SetStateAction<boolean>>;
+  selectedService: string;
 };
 
-function PopupSend({ setProp }: popupType) {
+function PopupSend({ setProp, selectedService }: popupType) {
   const [closing, setClosing] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [about, setAbout] = useState("");
-  // const [File, setFile] = useState("File");
+  const [File, setFile] = useState<File | null>(null);
   const [phoneVal, setphoneVal] = useState("");
   const [status, setStatus] = useState<number | null>(null);
   const [checkVal, setCheckVal] = useState(false);
+  const [showError, setShowError] = useState(false);
+
+  const triggerError = () => {
+    setShowError(true);
+    setTimeout(() => {
+      setShowError(false);
+    }, 3000);
+  };
 
   const backendUrl = "/send-email";
 
@@ -26,35 +35,47 @@ function PopupSend({ setProp }: popupType) {
     };
   }, []);
 
-  type EmailFormType = {
-    name: string;
-    email: string;
-    phone: string;
-    about: string;
-  };
+  // type EmailFormType = {
+  //   name: string;
+  //   direction: string;
+  //   email: string;
+  //   phone: string;
+  //   about: string;
+  // };
 
-  const dataFormObject: EmailFormType = {
-    name: name,
-    email: email,
-    phone: phoneVal.replace(/\D/g, ""),
-    about: about,
-  };
+  // const dataFormObject: EmailFormType = {
+  //   name: name,
+  //   direction: selectedService || "",
+  //   email: email,
+  //   phone: phoneVal.replace(/\D/g, ""),
+  //   about: about,
+  // };
 
   async function dataFormRequest() {
-    const allField = Object.values(dataFormObject).every(
+    const allField = [name, email, phoneVal.replace(/\D/g, ""), about].every(
       (value) => value.trim() !== ""
     );
     if (!allField) {
       console.error("Заполните все поля", 422);
       setStatus(422);
+      triggerError();
       return;
     }
     try {
       setStatus(100);
+      const formData = new FormData();
+      formData.append("name", name);
+      formData.append("direction", selectedService);
+      formData.append("email", email);
+      formData.append("phone", phoneVal.replace(/\D/g, ""));
+      formData.append("about", about);
+      if (File) {
+        formData.append("file", File);
+      }
+
       const response = await fetch(backendUrl, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(dataFormObject),
+        body: formData,
       });
       if (!response.ok) {
         setStatus(response.status);
@@ -108,7 +129,7 @@ function PopupSend({ setProp }: popupType) {
         closing ? styles.hide : styles.fadeOut
       }`}
     >
-      {status == null ? (
+      {status == null || status == 422 ? (
         <div className={styles.popupSend_content}>
           <div className={styles.content_textCon}>
             <div className={styles.textCon_top}>
@@ -129,7 +150,11 @@ function PopupSend({ setProp }: popupType) {
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className={styles.inputCon_input}
+              className={
+                status == 422
+                  ? styles.inputCon_inputError
+                  : styles.inputCon_input
+              }
               placeholder="Имя и организация"
             />
             <div className={styles.inputCon_flex}>
@@ -137,21 +162,33 @@ function PopupSend({ setProp }: popupType) {
                 type="text"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className={styles.inputCon_input}
+                className={
+                  status == 422
+                    ? styles.inputCon_inputError
+                    : styles.inputCon_input
+                }
                 placeholder="Email"
               />
               <input
                 value={phoneVal}
                 onChange={handlePhoneChange}
                 type="text"
-                className={styles.inputCon_inputPhone}
+                className={
+                  status == 422
+                    ? styles.inputCon_inputError
+                    : styles.inputCon_inputPhone
+                }
                 placeholder="+7 (555) 555-55-55"
               />
             </div>
             <textarea
               value={about}
               onChange={(e) => setAbout(e.target.value)}
-              className={styles.inputCon_textArea}
+              className={
+                status == 422
+                  ? styles.inputCon_areaError
+                  : styles.inputCon_textArea
+              }
               placeholder="Расскажите о проекте"
             />
           </div>
@@ -161,8 +198,29 @@ function PopupSend({ setProp }: popupType) {
               <span className={styles.fileCon_text}>
                 Прикрепить файл до 10 Мб
               </span>
-              <input type="file" className={styles.fileCon_input} />
+              <input
+                type="file"
+                className={styles.fileCon_input}
+                accept=".docx,.vsdx,.pdf,.drawio,.ppt,.pptx"
+                onChange={(e) => {
+                  if (e.target.files && e.target.files[0]) {
+                    setFile(e.target.files[0]);
+                  }
+                }}
+              />
             </label>
+            <div className={styles.fileCon_list}>
+              {File && (
+                <a
+                  href={URL.createObjectURL(File)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={styles.list_file_link}
+                >
+                  {File.name}
+                </a>
+              )}
+            </div>
             <div className={styles.buttons_selectbox}>
               <label className={styles.selectbox_custom}>
                 <input
@@ -178,7 +236,10 @@ function PopupSend({ setProp }: popupType) {
               </a>
             </div>
             <button
-              className={styles.buttons_btn}
+              className={`${
+                checkVal ? styles.buttons_btn : styles.buttons_btnActive
+              }`}
+              disabled={!checkVal}
               onClick={() => {
                 if (checkVal) {
                   dataFormRequest();
@@ -210,6 +271,17 @@ function PopupSend({ setProp }: popupType) {
         </div>
       ) : (
         ""
+      )}
+      {showError && (
+        <div
+          className={`${styles.popupSend_error} ${
+            showError ? styles.showError : styles.hideError
+          }`}
+        >
+          <span className={styles.error_text}>
+            Ошибка! Заполните все поля корректно.
+          </span>
+        </div>
       )}
     </div>
   );

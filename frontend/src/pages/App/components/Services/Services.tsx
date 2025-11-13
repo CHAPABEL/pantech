@@ -24,10 +24,10 @@ const dataList = [
 ];
 
 type servProps = {
-  prop: boolean;
-  setProp: React.Dispatch<React.SetStateAction<boolean>>;
+  setSelectedService: (service: string) => void; // вызываем функцию напрямую
 };
-function Services({ setProp }: servProps) {
+
+function Services({ setSelectedService }: servProps) {
   return (
     <div className={styles.services}>
       {dataList.map((item, index) => (
@@ -49,7 +49,9 @@ function Services({ setProp }: servProps) {
           </div>
           <div className={styles.container_buttonCon}>
             <button
-              onClick={() => setProp(true)}
+              onClick={() => {
+                setSelectedService(item.mainText);
+              }}
               className={styles.buttonCon_button}
             >
               Выбрать услугу

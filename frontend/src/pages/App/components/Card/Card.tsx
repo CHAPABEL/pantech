@@ -13,6 +13,17 @@ const dataObject = [
       "images/stack/fastapi.svg",
     ],
   },
+  {
+    mainText: "Pichta",
+    discription:
+      "Система построения индивидуальной траектории развития специалиста",
+    stackPath: [
+      "images/stack/python.svg",
+      "images/stack/docker.svg",
+      "images/stack/carbon.svg",
+      "images/stack/fastapi.svg",
+    ],
+  },
 ];
 
 type servProps = {
@@ -23,17 +34,17 @@ type servProps = {
 function Card({ setProp }: servProps) {
   const containerRef = useRef<HTMLDivElement | null>(null);
 
-  const handleScroll = () => {
-    const container = containerRef.current;
-    if (!container) return;
+  // const handleScroll = () => {
+  //   const container = containerRef.current;
+  //   if (!container) return;
 
-    const cardWidth = (container.firstChild as HTMLElement)?.offsetWidth || 0;
+  //   const cardWidth = (container.firstChild as HTMLElement)?.offsetWidth || 0;
 
-    container.scrollBy({
-      left: cardWidth,
-      behavior: "smooth",
-    });
-  };
+  //   container.scrollBy({
+  //     left: cardWidth,
+  //     behavior: "smooth",
+  //   });
+  // };
   return (
     <div className={styles.app_productCards}>
       <div className={styles.productCards_Container} ref={containerRef}>
@@ -75,7 +86,7 @@ function Card({ setProp }: servProps) {
             <img
               src="images/load.png"
               alt=""
-              className={styles.leftSide_image}
+              className={styles.leftSide_imageL}
               loading="lazy"
             />
           </div>
@@ -88,7 +99,7 @@ function Card({ setProp }: servProps) {
         </div>
       </div>
 
-      <svg
+      {/* <svg
         onClick={handleScroll}
         className={styles.arrow}
         viewBox="0 0 93 280"
@@ -119,7 +130,7 @@ function Card({ setProp }: servProps) {
           transform="matrix(-0.959881 -0.280406 -0.280406 0.959881 79.1523 139.243)"
           fill="#3075D8"
         />
-      </svg>
+      </svg> */}
     </div>
   );
 }
