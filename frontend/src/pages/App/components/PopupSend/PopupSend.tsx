@@ -81,14 +81,14 @@ function PopupSend({ setProp, selectedService }: popupType) {
         setStatus(response.status);
         return;
       } else {
-        console.log(response);
+        // console.log(response);
       }
 
-      const data = await response.json();
-      console.log(data);
+      // const data = await response.json();
+      // console.log(data);
       setStatus(201);
     } catch (erorr) {
-      console.error(erorr);
+      // console.error(erorr);
     }
   }
 

@@ -8,14 +8,15 @@ from config import settings
 app = FastAPI()
 
 origins = [
-    "http://localhost:3000",  
-    "http://localhost",  
-    "http://127.0.0.1:3000",
+    "http://localhost",      # для доступа через nginx (порт 80)
+    "http://localhost:80",   # для доступа через nginx (порт 80)
+    "http://localhost:8080", # для прямого доступа к бэкенду (если порт проброшен)
+    "http://localhost:3000", 
 ]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],     
     allow_headers=["*"],   
