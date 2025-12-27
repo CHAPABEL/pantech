@@ -26,7 +26,7 @@ function PopupSend({ setProp, selectedService }: popupType) {
     }, 3000);
   };
 
-  const backendUrl = "/send-email";
+  const backendUrl = "/api/send-email";
 
   useEffect(() => {
     document.body.style.overflow = "hidden";

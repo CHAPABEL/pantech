@@ -398,3 +398,29 @@
     }
   }
 }
+
+@media (max-width: 432px) {
+  .app_popupSend {
+    .popupSend_content {
+      padding: 30px 20px;
+
+      .content_textCon {
+        .textCon_disc {
+          width: 100%;
+          font-size: 18px;
+        }
+      }
+
+      .content_buttons {
+        .buttons_fileCon {
+          width: 100%;
+        }
+      }
+    }
+
+    .popupSend_loading {
+      width: 90%;
+      height: 300px;
+    }
+  }
+}

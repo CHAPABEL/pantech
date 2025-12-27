@@ -178,3 +178,14 @@
     }
   }
 }
+
+@media (max-width: 432px) {
+  .projects_container {
+    .container_card {
+      width: 90%;
+      .card_topSide {
+        height: 220px;
+      }
+    }
+  }
+}

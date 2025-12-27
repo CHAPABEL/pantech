@@ -47,6 +47,8 @@ button {
 img {
   max-width: 100%;
   display: block;
+  -moz-user-select: none;
+  user-select: none;
 }
 *::-webkit-scrollbar {
   width: 4px;

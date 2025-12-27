@@ -43,7 +43,7 @@ function PopupProject({ setProp }: servProps) {
                 <span className={styles.main_mainText}>pichta</span>
                 <X
                   className={styles.main_svg}
-                  size="34px"
+                  size="20px"
                   onClick={handleClose}
                   // onClick={handleClose}
                 />

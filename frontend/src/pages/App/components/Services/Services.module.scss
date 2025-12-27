@@ -30,12 +30,16 @@
         background: $primary-color;
         padding: 15px;
         border-radius: 10px;
+        .imageCon_image {
+          width: 150px;
+        }
       }
 
       .leftSide_textCon {
         @include column;
-        gap: 25px;
-        width: 60%;
+        gap: 15px;
+        width: 70%;
+
         .textCon_mainText {
           font-size: 40px;
           font-weight: 400;
@@ -171,6 +175,57 @@
           color: white;
           font-size: 24px;
           padding: 10px 15px;
+          border-radius: 10px;
+          white-space: nowrap;
+          background: $button-color;
+          transition: all;
+          transition-duration: 200ms;
+
+          &:hover {
+            scale: 102%;
+            background: $buttonHover-color;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 432px) {
+  .services {
+    .services_container {
+      padding: 10px;
+      width: 85%;
+      .container_leftSide {
+        gap: 20px;
+        .leftSide_imageCon {
+          padding: 8px;
+          .imageCon_image {
+            width: 90%;
+            height: 80%;
+          }
+        }
+
+        .leftSide_textCon {
+          gap: 10px;
+          .textCon_mainText {
+            font-size: 25px;
+            text-align: center;
+            font-weight: 400;
+          }
+          .textCon_discription {
+            font-size: 15px;
+            text-align: center;
+            color: #292929;
+          }
+        }
+      }
+
+      .container_buttonCon {
+        .buttonCon_button {
+          color: white;
+          font-size: 15px;
+          padding: 8px 12px;
           border-radius: 10px;
           white-space: nowrap;
           background: $button-color;

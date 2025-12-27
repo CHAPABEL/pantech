@@ -33,6 +33,7 @@ function Projects() {
               className={styles.topSide_img}
               src={item.imgSrc}
               loading="lazy"
+              alt="Компонент проекта"
             />
           </div>
           <div className={styles.card_cardInfo}>
@@ -43,7 +44,7 @@ function Projects() {
               </span>
             </div>
             <div className={styles.cardInfo_bottomSide}>
-              <button className={styles.bottomSide_btn}>Подробнее</button>
+              {/* <button className={styles.bottomSide_btn}>Подробнее</button> */}
               <div className={styles.bottomSide_stack}></div>
             </div>
           </div>

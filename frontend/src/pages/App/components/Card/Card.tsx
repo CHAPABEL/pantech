@@ -13,17 +13,6 @@ const dataObject = [
       "images/stack/fastapi.svg",
     ],
   },
-  {
-    mainText: "Pichta",
-    discription:
-      "Система построения индивидуальной траектории развития специалиста",
-    stackPath: [
-      "images/stack/python.svg",
-      "images/stack/docker.svg",
-      "images/stack/carbon.svg",
-      "images/stack/fastapi.svg",
-    ],
-  },
 ];
 
 type servProps = {

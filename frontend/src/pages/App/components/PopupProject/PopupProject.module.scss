@@ -172,3 +172,87 @@
 .hide {
   animation: fadeOut 0.3s ease forwards;
 }
+
+@media (max-width: 432px) {
+  .app_prod {
+    .prod_conteiner {
+      overflow-y: auto;
+      scroll-snap-type: x mandatory;
+      height: 80%;
+
+      flex-direction: column;
+      gap: 15px;
+      .conteiner_left {
+        display: none;
+        height: 250px;
+        .left_img {
+          top: 20%;
+        }
+      }
+      .center {
+        flex-direction: column;
+        gap: 15px;
+        .center_task,
+        .center_realisation {
+          width: 100%;
+        }
+      }
+      .conteiner_right {
+        .center {
+          flex-direction: column;
+          gap: 30px;
+          .center_task {
+            width: 100%;
+
+            .task_mainText {
+              font-size: 20px;
+            }
+            .task_dics {
+              font-size: 16px;
+            }
+          }
+          .center_realisation {
+            width: 100%;
+            .realisation_mainText {
+              font-size: 20px;
+            }
+            .realisation_dics {
+              font-size: 16px;
+            }
+          }
+        }
+
+        .textCon_top {
+          .top_main {
+            gap: 10px;
+            .main_mainText {
+              font-size: 20px;
+            }
+          }
+          .top_disc {
+            font-size: 16px;
+          }
+        }
+        .bottom {
+          flex-direction: column;
+          gap: 20px;
+          align-items: center;
+          width: 100%;
+          .bottom_technologies {
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            .technologies_text {
+              padding: 10px 30px;
+              font-size: 20px;
+            }
+          }
+          .bottom_pres {
+            font-size: 18px;
+            text-align: center;
+          }
+        }
+      }
+    }
+  }
+}

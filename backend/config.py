@@ -1,7 +1,7 @@
 from pydantic_settings import BaseSettings
 from pathlib import Path
 
-BASE_DIR = Path(__file__).resolve().parent 
+BASE_DIR = Path(__file__).resolve()
 class Settings(BaseSettings):
     fastapi_host: str
     fastapi_port: int

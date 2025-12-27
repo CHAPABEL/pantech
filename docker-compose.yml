@@ -4,9 +4,8 @@ services:
       context: frontend
     ports:
       - 80:80
-      - 443:443
-    volumes:
-      - ./data/caddy:/data/caddy
+    depends_on:
+      - backend
 
   backend:
     build:

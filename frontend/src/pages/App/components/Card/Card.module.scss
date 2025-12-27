@@ -216,3 +216,13 @@
     }
   }
 }
+
+@media (max-width: 432px) {
+  .app_productCards {
+    .productCards_Container {
+      .cardCon {
+        width: 90%;
+      }
+    }
+  }
+}

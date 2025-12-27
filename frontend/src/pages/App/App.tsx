@@ -49,10 +49,15 @@ function App() {
             </div>
           </div>
 
-          <img src="images/mainImage.png" className={styles.initial_image} />
+          <img
+            src="images/mainImage.png"
+            className={styles.initial_image}
+            alt="Главное изображение"
+          />
         </section>
         <section className={styles.main_content}>
           <div id="products" className={styles.main_productCards}>
+            
             <span className={styles.productCards_maintext}>Наши продукты</span>
             <Card prop={projectPopup} setProp={setProjectPopup} />
           </div>

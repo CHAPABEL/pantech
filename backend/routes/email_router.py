@@ -3,46 +3,46 @@ from fastapi.responses import JSONResponse
 from email.message import EmailMessage
 import smtplib
 from config import settings
-from typing import Optional 
+from datetime import datetime
+from pathlib import Path
+from .email_logger import log_email_entry
 
 router = APIRouter()
 
 MAX_FILE_SIZE = 20 * 1024 * 1024  # 20 МБ
+UPLOAD_DIR = Path("uploads")
+UPLOAD_DIR.mkdir(exist_ok=True)
 
 @router.post("/send-email")
 async def send_email(
     name: str = Form(...),
-    direction: str | None = Form(None), 
+    direction: str | None = Form(None),
     email: str = Form(...),
     phone: str = Form(...),
     about: str = Form(...),
     file: UploadFile | None = File(None)
 ):
+    saved_file_path = None
+
     try:
-        # текстовая версия
         text_content = f"""
 Новое сообщение с сайта Pantech
 Пользователь: {name}
 Направление: {direction or "не указано"}
 Email: {email}
 Телефон: {phone}
-
 О проекте: {about}
 """
         html_content = f"""
 <html>
-  <div style="margin:0; padding-top:50px; padding-bottom:50px; bprder-radius:15px;  background-color:#327be1; font-family: Arial, sans-serif;">
-      <h2 style="color:#ffff; font-size:32px; text-align:center; margin-bottom:20px;">Новое сообщение с сайта Pantech</h2>
-    <div style="max-width: 600px; margin: 30px auto; background-color: #ffffff; border-radius: 10px; padding: 30px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
-      
-      <p style="font-size:20px"><strong>Пользователь:</strong> {name}</p>
-      <p style="font-size:20px"><strong>Направление:</strong> {direction or 'не указано'}</p>
-      <p style="font-size:20px"><strong>Email:</strong> {email}</p>
-      <p style="font-size:20px"><strong>Телефон:</strong> {phone}</p>
-      <p style="font-size:20px"><strong>О проекте:</strong><br>{about}</p>
-      
-    </div>
-  </div>
+  <body style="font-family: Arial, sans-serif;">
+    <h2 style="color:#327be1;">Новое сообщение с сайта Pantech</h2>
+    <p><strong>Пользователь:</strong> {name}</p>
+    <p><strong>Направление:</strong> {direction or 'не указано'}</p>
+    <p><strong>Email:</strong> {email}</p>
+    <p><strong>Телефон:</strong> {phone}</p>
+    <p><strong>О проекте:</strong><br>{about}</p>
+  </body>
 </html>
 """
 
@@ -50,14 +50,17 @@ Email: {email}
         msg['Subject'] = 'Новое сообщение с сайта Pantech'
         msg['From'] = settings.smtp_user
         msg['To'] = settings.recipient_email
+        msg.set_content(text_content)
+        msg.add_alternative(html_content, subtype="html")
 
-        msg.set_content(text_content)  
-        msg.add_alternative(html_content, subtype="html") 
-
-        if file is not None:
+        # Обработка вложений
+        if file:
             file_content = await file.read()
             if len(file_content) > MAX_FILE_SIZE:
                 raise HTTPException(status_code=413, detail="Файл слишком большой. Максимум 20 МБ.")
+            saved_file_path = UPLOAD_DIR / file.filename
+            with open(saved_file_path, "wb") as f:
+                f.write(file_content)
             msg.add_attachment(
                 file_content,
                 maintype="application",
@@ -65,15 +68,52 @@ Email: {email}
                 filename=file.filename
             )
 
-        with smtplib.SMTP(settings.smtp_host, settings.smtp_port) as smtp:
-            smtp.starttls()
-            smtp.login(settings.smtp_user, settings.smtp_pass)
-            smtp.send_message(msg)
+        # Отправка через Reg.ru SSL SMTP (порт 465)
+        try:
+            with smtplib.SMTP_SSL(settings.smtp_host, 465, timeout=10) as smtp:
+                smtp.login(settings.smtp_user, settings.smtp_pass)
+                smtp.send_message(msg)
+        except smtplib.SMTPException as smtp_err:
+            raise HTTPException(status_code=500, detail=f"SMTP error: {smtp_err}")
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=f"Ошибка при отправке письма: {e}")
+
+        # Логирование
+        log_email_entry({
+            "name": name,
+            "direction": direction,
+            "email": email,
+            "phone": phone,
+            "about": about,
+            "file": saved_file_path.name if saved_file_path else None,
+            "sent_at": datetime.utcnow().isoformat(),
+            "status": "sent"
+        })
 
         return JSONResponse({"message": "Письмо отправлено!"}, status_code=201)
 
     except HTTPException as he:
+        log_email_entry({
+            "name": name,
+            "direction": direction,
+            "email": email,
+            "phone": phone,
+            "about": about,
+            "file": saved_file_path.name if saved_file_path else None,
+            "sent_at": datetime.utcnow().isoformat(),
+            "status": f"error: {he.detail}"
+        })
         return JSONResponse({"message": he.detail}, status_code=he.status_code)
+
     except Exception as e:
-        print("Ошибка при отправке письма:", e)
+        log_email_entry({
+            "name": name,
+            "direction": direction,
+            "email": email,
+            "phone": phone,
+            "about": about,
+            "file": saved_file_path.name if saved_file_path else None,
+            "sent_at": datetime.utcnow().isoformat(),
+            "status": f"error: {str(e)}"
+        })
         return JSONResponse({"message": "Ошибка при отправке письма"}, status_code=500)

@@ -124,3 +124,28 @@
     }
   }
 }
+
+@media (max-width: 432px) {
+  .tech_container {
+    .container_info {
+      padding: 20px 20px;
+      height: 100%;
+
+      .info_mnText {
+        font-size: 20px;
+        font-weight: 600;
+      }
+      .info_list {
+        display: grid;
+
+        grid-template-columns: 1fr;
+        gap: 10px;
+
+        .list_key {
+          font-size: 16px;
+          font-weight: 500;
+        }
+      }
+    }
+  }
+}

@@ -35,7 +35,7 @@ function Header({ setSelectedService }: headProp) {
             href="mailto:pochtadlyasvazi@gmail.com"
             className={styles.Linkcon_adress}
           >
-            pochtadlyasvazi@gmail.com
+            info@pan-tech.ru
           </a>
         </div>
         <button

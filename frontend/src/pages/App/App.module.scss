@@ -404,15 +404,7 @@
       align-items: center;
 
       .initial_image {
-        height: 40%;
-        opacity: 30%;
-        position: absolute;
-        z-index: 300;
-        top: 19px;
-        right: 20px;
-        width: 40%;
-
-        animation: bounce 5s infinite;
+        display: none;
       }
 
       .initial_textCon {

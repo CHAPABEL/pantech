@@ -71,7 +71,7 @@
     .rightSide_LinkCon {
       @include row;
       gap: 5px;
-
+      width: max-content;
       .Linkcon_adress {
         font-size: 16px;
         font-weight: 600;
