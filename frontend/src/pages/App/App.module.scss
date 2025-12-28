@@ -509,15 +509,20 @@
 
   .footer {
     @include row;
-    padding: 80px 80px;
+    height: auto;
     background: #bfd9ff;
-    gap: 50px;
+    gap: 25px;
+    align-items: center;
+    justify-content: center;
     .footer_mnText {
-      font-size: 28px;
+      font-size: 32px;
       font-weight: 600;
+      width: 100%;
       color: #3075d8;
     }
-
+    .footer_Logo {
+      width: 29%;
+    }
     .footer_linkCon {
       display: flex;
       flex-direction: column;

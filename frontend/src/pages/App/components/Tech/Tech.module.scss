@@ -127,19 +127,32 @@
 
 @media (max-width: 432px) {
   .tech_container {
+    gap: 12px;
+
+    .container_buttons {
+      gap: 8px;
+      padding-bottom: 5px;
+
+      .buttons_btn {
+        font-size: 15px;
+        padding: 6px 18px;
+        border-radius: 8px;
+      }
+    }
+
     .container_info {
-      padding: 20px 20px;
-      height: 100%;
+      padding: 20px;
+      gap: 16px;
 
       .info_mnText {
         font-size: 20px;
         font-weight: 600;
+        text-align: center;
       }
-      .info_list {
-        display: grid;
 
+      .info_list {
         grid-template-columns: 1fr;
-        gap: 10px;
+        gap: 8px;
 
         .list_key {
           font-size: 16px;

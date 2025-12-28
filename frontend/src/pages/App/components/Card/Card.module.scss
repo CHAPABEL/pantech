@@ -51,9 +51,16 @@
       }
 
       &:last-child {
-        align-items: flex-start;
-        .leftSide_image {
-          animation: spin 4s linear infinite;
+        .cardCon_leftSide {
+          background-color: $primary-color;
+          position: relative;
+          overflow: hidden;
+          width: 100px;
+          .leftSide_imageL {
+            max-width: 180px;
+            left: -90px;
+            position: absolute;
+          }
         }
       }
 
@@ -65,6 +72,14 @@
         display: flex;
         align-items: center;
         padding: 20px 20px 20px 0;
+        position: relative;
+        overflow: hidden;
+        width: 100px;
+        .leftSide_image {
+          max-width: 180px;
+          left: -90px;
+          position: absolute;
+        }
       }
 
       .cardCon_textCon {
@@ -277,7 +292,13 @@
         }
 
         &:last-child {
-          align-items: center;
+          .cardCon_leftSide {
+            align-items: center;
+            width: 95%;
+            .leftSide_imageL {
+              position: static;
+            }
+          }
         }
 
         .cardCon_leftSide {
@@ -290,8 +311,10 @@
           align-items: center;
           padding: 20px 20px 20px 20px;
           position: relative;
-
+          align-items: center;
+          width: 95%;
           .leftSide_image {
+            position: static;
             max-width: 100%;
             max-height: 100%;
           }
