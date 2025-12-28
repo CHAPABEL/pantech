@@ -80,7 +80,11 @@ function PopupProject({ setProp }: servProps) {
                 <span className={styles.technologies_text}>FastAPI</span>
                 <span className={styles.technologies_text}>Графы</span>
               </div>
-              <a href="#" className={styles.bottom_pres}>
+              <a
+                href="public/images/pichta.pdf"
+                target="_blank"
+                className={styles.bottom_pres}
+              >
                 Презентация продукта
               </a>
             </div>

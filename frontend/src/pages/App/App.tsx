@@ -57,7 +57,6 @@ function App() {
         </section>
         <section className={styles.main_content}>
           <div id="products" className={styles.main_productCards}>
-            
             <span className={styles.productCards_maintext}>Наши продукты</span>
             <Card prop={projectPopup} setProp={setProjectPopup} />
           </div>
@@ -86,8 +85,10 @@ function App() {
         )}
       </main>
       <footer className={styles.footer}>
+        <img src="/images/Logo.svg" className={styles.footer_Logo} />
+
         <span className={styles.footer_mnText}>Pan-Tech</span>
-        <div className={styles.footer_linkCon}>
+        {/* <div className={styles.footer_linkCon}>
           <div className={styles.linkCon_links}>
             <a href="#" className={styles.leftSide_link}>
               Mobile app
@@ -126,7 +127,7 @@ function App() {
               Resources
             </a>
           </div>
-        </div>
+        </div> */}
       </footer>
     </>
   );

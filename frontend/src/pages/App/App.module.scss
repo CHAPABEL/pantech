@@ -128,12 +128,19 @@
 }
 
 .footer {
-  @include column;
-  padding: 80px 80px;
+  @include row;
+  padding: 40px 40px;
   background: #bfd9ff;
+  align-items: center;
+  justify-content: center;
   gap: 50px;
+
+  .footer_Logo {
+    width: 7%;
+  }
   .footer_mnText {
-    font-size: 28px;
+    padding-top: 15px;
+    font-size: 55px;
     font-weight: 600;
     color: #3075d8;
   }
