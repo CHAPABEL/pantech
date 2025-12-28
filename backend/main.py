@@ -11,7 +11,8 @@ origins = [
     "http://localhost",      # для доступа через nginx (порт 80)
     "http://localhost:80",   # для доступа через nginx (порт 80)
     "http://localhost:8080", # для прямого доступа к бэкенду (если порт проброшен)
-    "http://localhost:3000", 
+    "http://localhost:3000",
+    "http://localhost:5173",
 ]
 
 app.add_middleware(
