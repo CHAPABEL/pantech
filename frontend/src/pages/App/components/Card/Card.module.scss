@@ -52,6 +52,9 @@
 
       &:last-child {
         align-items: flex-start;
+        .leftSide_image {
+          animation: spin 4s linear infinite;
+        }
       }
 
       .cardCon_leftSide {
@@ -219,10 +222,127 @@
 
 @media (max-width: 432px) {
   .app_productCards {
-    .productCards_Container {
-      .cardCon {
-        width: 90%;
+    @include row;
+    gap: 15px;
+
+    .arrow {
+      height: 270px;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+
+      &:hover {
+        transform: scale(1.03);
       }
     }
+
+    .productCards_Container {
+      display: flex;
+      flex-direction: column;
+      flex: 2;
+      background: $app-bg;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      padding: 10px 5px;
+      gap: 20px;
+
+      &::-webkit-scrollbar-thumb {
+        background: $primary-color;
+        border-radius: 20px;
+      }
+
+      .cardCon {
+        cursor: pointer;
+        @include column;
+        scroll-snap-align: start;
+        justify-content: center;
+        background: $card-bg;
+        gap: 25px;
+        border: 1px solid $primary-color;
+        border-radius: 15px;
+        padding: 4px;
+        align-items: center;
+        width: 100%;
+        padding-top: 15px;
+        flex-shrink: 0;
+        transition: all ease-in-out;
+        transition-duration: 200ms;
+
+        &:hover {
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+          background-color: $primary-color;
+
+          .cardCon_leftSide {
+            background-color: #fff;
+          }
+        }
+
+        &:last-child {
+          align-items: center;
+        }
+
+        .cardCon_leftSide {
+          background-color: $primary-color;
+          justify-content: center;
+          height: 270px;
+          width: 85%;
+          border-radius: 15px;
+          display: flex;
+          align-items: center;
+          padding: 20px 20px 20px 20px;
+          position: relative;
+
+          .leftSide_image {
+            max-width: 100%;
+            max-height: 100%;
+          }
+        }
+
+        .cardCon_textCon {
+          @include column;
+          width: 85%;
+          text-align: center;
+          gap: 25px;
+          padding: 15px 0;
+
+          .textCon_mainText {
+            font-size: 32px;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: $text-color;
+          }
+
+          .textCon_disc {
+            font-size: 18px;
+          }
+
+          .textCon_stack {
+            @include column;
+            gap: 15px;
+
+            .stack_mnText {
+              font-size: 18px;
+              font-weight: 600;
+              color: $text-color;
+            }
+
+            .stack_logoCon {
+              align-items: center;
+              justify-content: center;
+              display: flex;
+              gap: 20px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
   }
 }

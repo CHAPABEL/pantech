@@ -81,7 +81,7 @@ function PopupProject({ setProp }: servProps) {
                 <span className={styles.technologies_text}>Графы</span>
               </div>
               <a
-                href="public/images/pichta.pdf"
+                href="/pichta.pdf"
                 target="_blank"
                 className={styles.bottom_pres}
               >

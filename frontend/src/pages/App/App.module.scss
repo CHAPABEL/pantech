@@ -508,7 +508,7 @@
   }
 
   .footer {
-    @include column;
+    @include row;
     padding: 80px 80px;
     background: #bfd9ff;
     gap: 50px;

@@ -45,7 +45,7 @@ function Card({ setProp }: servProps) {
           >
             <div className={styles.cardCon_leftSide}>
               <img
-                src="images/stack/pichta.png"
+                src="images/full.png"
                 alt=""
                 className={styles.leftSide_image}
               />
@@ -73,7 +73,7 @@ function Card({ setProp }: servProps) {
         <div key="item" className={styles.cardCon}>
           <div className={styles.cardCon_leftSide}>
             <img
-              src="images/load.png"
+              src="images/fullload.png"
               alt=""
               className={styles.leftSide_imageL}
               loading="lazy"

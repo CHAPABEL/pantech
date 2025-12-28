@@ -380,15 +380,15 @@
 @media (max-width: 600px) {
   .app_popupSend {
     .popup_content {
-      padding: 30px 25px;
+      padding: 15px 15px;
     }
 
     .popup_title {
-      font-size: 24px;
+      font-size: 15px;
     }
 
     .popup_subtitle {
-      font-size: 16px;
+      font-size: 12px;
     }
 
     .popup_form {
@@ -401,26 +401,132 @@
 
 @media (max-width: 432px) {
   .app_popupSend {
-    .popupSend_content {
-      padding: 30px 20px;
+    padding: 10px;
 
-      .content_textCon {
-        .textCon_disc {
-          width: 100%;
-          font-size: 18px;
+    .popupSend_content {
+      width: 100%;
+      max-height: 85vh;
+      overflow-y: auto;
+
+      padding: 20px;
+      gap: 15px;
+      border-radius: 12px;
+    }
+
+    .content_textCon {
+      gap: 12px;
+
+      .textCon_top {
+        .top_main {
+          font-size: 22px;
+        }
+
+        .top_svg {
+          width: 26px;
+          height: 26px;
         }
       }
 
-      .content_buttons {
-        .buttons_fileCon {
-          width: 100%;
+      .textCon_disc {
+        width: 100%;
+        font-size: 16px;
+      }
+    }
+
+    .content_inputCon {
+      gap: 8px;
+
+      .inputCon_flex {
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      input,
+      textarea {
+        font-size: 16px;
+        padding: 14px;
+      }
+
+      .inputCon_areaError,
+      .inputCon_textArea {
+        height: 140px;
+      }
+    }
+
+    .content_buttons {
+      width: 100%;
+
+      .buttons_fileCon {
+        width: 100%;
+        padding: 10px;
+      }
+
+      .fileCon_text {
+        font-size: 16px;
+      }
+
+      .fileCon_list {
+        padding: 5px 0;
+        max-height: 120px;
+
+        .list_file_link {
+          font-size: 14px;
         }
+      }
+
+      .buttons_selectbox {
+        align-items: flex-start;
+
+        .selectbox_text {
+          font-size: 14px;
+          line-height: 1.3;
+        }
+      }
+
+      .buttons_btn,
+      .buttons_btnActive {
+        width: 100%;
+        font-size: 16px;
+        padding: 14px;
+        text-align: center;
+      }
+    }
+
+    .popupSend_success {
+      width: 100%;
+      padding: 24px;
+      gap: 16px;
+
+      .success_img {
+        width: 64px;
+      }
+
+      .success_main {
+        font-size: 22px;
+        text-align: center;
+      }
+
+      .success_text {
+        font-size: 16px;
+        text-align: center;
       }
     }
 
     .popupSend_loading {
-      width: 90%;
-      height: 300px;
+      width: 100%;
+      height: 240px;
+
+      .loading_success {
+        width: 64px;
+        height: 64px;
+      }
+    }
+
+    .popupSend_error {
+      width: calc(100% - 20px);
+      right: 10px;
+      font-size: 14px;
+      padding: 12px;
     }
   }
 }
