@@ -39,7 +39,7 @@ function App() {
             </div>
             <div className={styles.textCon_discriptionCon}>
               <span className={styles.textCon_slogan}>
-                Интергатор - это про доверие
+                Интергатор - это про доверие!
               </span>
               <span className={styles.textCon_discription}>
                 Мы являемся разработчиком ПО, вдохновляемые потребностями
@@ -85,49 +85,32 @@ function App() {
         )}
       </main>
       <footer className={styles.footer}>
-        <img src="/images/Logo.svg" className={styles.footer_Logo} />
-
-        <span className={styles.footer_mnText}>Pan-Tech</span>
-        {/* <div className={styles.footer_linkCon}>
-          <div className={styles.linkCon_links}>
+        {/* <img src="/images/Logo.svg" className={styles.footer_Logo} /> */}
+        <span className={styles.footer_contakt}>Контакты</span>
+        <div className={styles.footer_linkCon}>
+          <div className={styles.linCon_linksStay}>
+            <span className={styles.linksStay_span}>Телефон</span>
             <a href="#" className={styles.leftSide_link}>
-              Mobile app
-            </a>
-            <a href="#" className={styles.leftSide_link}>
-              Community
-            </a>
-            <a href="#" className={styles.leftSide_link}>
-              Company
+              +7 (495) 211-00-07
             </a>
           </div>
-          <div className={styles.linCon_center}>
-            <a href="">
-              <img
-                src="images/mail.svg"
-                className={styles.center_img}
-                loading="lazy"
-              />
-            </a>
-            <a href="">
-              <img
-                src="images/telega.svg"
-                className={styles.center_img}
-                loading="lazy"
-              />
+          <div className={styles.linCon_linksStay}>
+            <span className={styles.linksStay_span}>Телефон</span>
+            <a href="#" className={styles.leftSide_link}>
+              info@pan-tech.ru
             </a>
           </div>
-          <div className={styles.linkCon_links}>
-            <a href="#" className={styles.links_link}>
-              Help desk
-            </a>
-            <a href="#" className={styles.links_link}>
-              Blog
-            </a>
-            <a href="#" className={styles.linsk_link}>
-              Resources
+          <div className={styles.linCon_linksStay}>
+            <span className={styles.linksStay_span}>Телефон</span>
+            <a href="#" className={styles.leftSide_link}>
+              123100, Город Москва, ул Мантулинская, дом 16, помещение 2Ц
             </a>
           </div>
-        </div> */}
+        </div>
+        <span className={styles.footer_copyright}>
+          © 2025г. Политика конфиденциальности ООО «ВСЕ ТЕХНОЛОГИИ» ИНН
+          9703209450 ОГРН 1257700165250
+        </span>
       </footer>
     </>
   );

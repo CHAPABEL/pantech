@@ -9,7 +9,7 @@ function Header({ setSelectedService }: headProp) {
     <header className={styles.header}>
       <div className={styles.header_leftSide}>
         <a href="/">
-          <img src="/images/Logo.svg" className={styles.leftSide_Logo} />
+          <img src="/images/Logo2.svg" className={styles.leftSide_Logo} />
         </a>
         <div className={styles.leftSide_buttonCon}>
           <a href="#" className={styles.buttonCon_link}>

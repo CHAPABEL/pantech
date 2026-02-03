@@ -25,6 +25,7 @@
   }
   .container_info {
     @include column;
+    min-height: 350px;
 
     height: 100%;
     gap: 25px;
@@ -35,7 +36,9 @@
 
     .info_mnText,
     .info_list {
-      transition: opacity 0.3s ease, transform 0.3s ease;
+      transition:
+        opacity 0.3s ease,
+        transform 0.3s ease;
       opacity: 1;
       transform: translateY(0);
 

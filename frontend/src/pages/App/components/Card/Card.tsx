@@ -13,6 +13,17 @@ const dataObject = [
       "images/stack/fastapi.svg",
     ],
   },
+  {
+    mainText: "Brialin",
+    discription: "Разработка сервиса знакомств Breolin, скоро будет анонс!",
+    mainImg: "images/Brialin3.svg",
+    stackPath: [
+      "images/stack/python.svg",
+      "images/stack/docker.svg",
+      "images/stack/carbon.svg",
+      "images/stack/fastapi.svg",
+    ],
+  },
 ];
 
 type servProps = {
@@ -41,13 +52,21 @@ function Card({ setProp }: servProps) {
           <div
             key={index}
             className={styles.cardCon}
-            onClick={() => setProp(true)}
+            onClick={
+              item.mainImg !== "images/Brialin3.svg"
+                ? () => setProp(true)
+                : undefined
+            }
           >
             <div className={styles.cardCon_leftSide}>
               <img
-                src="images/full.png"
+                src={item.mainImg ? item.mainImg : "images/full.png"}
                 alt=""
-                className={styles.leftSide_image}
+                className={`${
+                  item.mainImg === "images/Brialin3.svg"
+                    ? styles.leftSide_brialin
+                    : styles.leftSide_image
+                }`}
               />
             </div>
             <div className={styles.cardCon_textCon}>
@@ -76,7 +95,6 @@ function Card({ setProp }: servProps) {
               src="images/fullload.png"
               alt=""
               className={styles.leftSide_imageL}
-              loading="lazy"
             />
           </div>
           <div className={styles.cardCon_textCon}>

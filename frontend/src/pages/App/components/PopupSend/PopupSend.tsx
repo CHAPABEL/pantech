@@ -53,7 +53,7 @@ function PopupSend({ setProp, selectedService }: popupType) {
 
   async function dataFormRequest() {
     const allField = [name, email, phoneVal.replace(/\D/g, ""), about].every(
-      (value) => value.trim() !== ""
+      (value) => value.trim() !== "",
     );
     if (!allField) {
       console.error("Заполните все поля", 422);
@@ -256,7 +256,7 @@ function PopupSend({ setProp, selectedService }: popupType) {
           <img
             src="images/Success.svg"
             className={styles.success_img}
-            loading="lazy"
+            loading=""
           />
           <span className={styles.success_main}>
             Спасибо! Ваша заявка отправлена

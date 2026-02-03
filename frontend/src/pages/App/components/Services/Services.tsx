@@ -40,11 +40,7 @@ function Services({ setSelectedService }: servProps) {
         <div key={index} className={styles.services_container}>
           <div className={styles.container_leftSide}>
             <div className={styles.leftSide_imageCon}>
-              <img
-                src={item.urlImg}
-                className={styles.imageCon_image}
-                loading="lazy"
-              />
+              <img src={item.urlImg} className={styles.imageCon_image} />
             </div>
             <div className={styles.leftSide_textCon}>
               <span className={styles.textCon_mainText}>{item.mainText}</span>
