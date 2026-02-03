@@ -253,11 +253,7 @@ function PopupSend({ setProp, selectedService }: popupType) {
       ) : status == 201 ? (
         <div className={styles.popupSend_success}>
           <X className={styles.success_svg} size="34px" onClick={handleClose} />
-          <img
-            src="images/Success.svg"
-            className={styles.success_img}
-            loading=""
-          />
+          <img src="images/Success.svg" className={styles.success_img} />
           <span className={styles.success_main}>
             Спасибо! Ваша заявка отправлена
           </span>
