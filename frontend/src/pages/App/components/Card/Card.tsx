@@ -17,12 +17,7 @@ const dataObject = [
     mainText: "Breolin",
     discription: "Разработка сервиса знакомств Breolin, скоро будет анонс!",
     mainImg: "images/Brialin3.svg",
-    stackPath: [
-      "images/stack/python.svg",
-      "images/stack/docker.svg",
-      "images/stack/carbon.svg",
-      "images/stack/fastapi.svg",
-    ],
+    stackPath: [],
   },
 ];
 
@@ -72,20 +67,25 @@ function Card({ setProp }: servProps) {
             <div className={styles.cardCon_textCon}>
               <span className={styles.textCon_mainText}>{item.mainText}</span>
               <span className={styles.textCon_disc}>{item.discription}</span>
-              <div className={styles.textCon_stack}>
-                <span className={styles.stack_mnText}>
-                  Технологический стэк
-                </span>
-                <div className={styles.stack_logoCon}>
-                  {item.stackPath.map((logo, index) => (
-                    <img
-                      key={index}
-                      src={logo}
-                      className={styles.stack_logos}
-                    />
-                  ))}
+              {item.stackPath.length > 0 ? (
+                <div className={styles.textCon_stack}>
+                  <span className={styles.stack_mnText}>
+                    Технологический стэк
+                  </span>
+                  <div className={styles.stack_logoCon}>
+                    {item.stackPath.map((logo, index) => (
+                      <img
+                        key={index}
+                        src={logo}
+                        className={styles.stack_logos}
+                        alt={`Stack logo ${index + 1}`}
+                      />
+                    ))}
+                  </div>
                 </div>
-              </div>
+              ) : (
+                <div></div>
+              )}
             </div>
           </div>
         ))}
