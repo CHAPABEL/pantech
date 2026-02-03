@@ -32,7 +32,6 @@ function Projects() {
             <img
               className={styles.topSide_img}
               src={item.imgSrc}
-              loading="lazy"
               alt="Компонент проекта"
             />
           </div>

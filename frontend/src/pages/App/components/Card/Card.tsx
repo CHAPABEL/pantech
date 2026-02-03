@@ -14,7 +14,7 @@ const dataObject = [
     ],
   },
   {
-    mainText: "Brialin",
+    mainText: "Breolin",
     discription: "Разработка сервиса знакомств Breolin, скоро будет анонс!",
     mainImg: "images/Brialin3.svg",
     stackPath: [
