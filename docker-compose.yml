@@ -18,3 +18,12 @@ services:
       - "${FASTAPI_PORT}:${FASTAPI_PORT}"
     volumes:
       - ./backend:/app
+
+
+    networks:
+      - docker_network
+
+networks:
+  docker_network:
+    name: docker_network
+

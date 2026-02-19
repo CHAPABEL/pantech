@@ -22,12 +22,12 @@
     display: flex;
     background: #ebf0f8;
     position: relative;
-    padding: 70px 120px;
+    padding: 70px 120px 130px 70px;
 
     .initial_textCon {
       display: flex;
       flex-direction: column;
-      gap: 15px;
+      gap: 10px;
       width: 70%;
 
       .textCon_mainText {
@@ -59,7 +59,7 @@
         padding-left: 10px;
         display: flex;
         flex-direction: column;
-        gap: 20px;
+        gap: 10px;
 
         .textCon_slogan {
           font-size: 35px;
@@ -143,14 +143,15 @@
   .footer_linkCon {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: start;
 
     .linCon_linksStay {
       display: flex;
       flex-direction: column;
       gap: 10px;
       .linksStay_span {
-        font-size: 24px;
+        font-size: 32px;
+        margin-bottom: 15px;
         font-weight: 600;
         color: #3076d8;
       }

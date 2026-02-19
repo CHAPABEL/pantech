@@ -5,7 +5,7 @@ const dataObject = [
   {
     mainText: "Pichta",
     discription:
-      "Система построения индивидуальной траектории развития специалиста",
+      "Система построения индивидуальной траектории развития специалиста.",
     stackPath: [
       "images/stack/python.svg",
       "images/stack/docker.svg",
@@ -89,7 +89,7 @@ function Card({ setProp }: servProps) {
             </div>
           </div>
         ))}
-        <div key="item" className={styles.cardCon}>
+        {/* <div key="item" className={styles.cardCon}>
           <div className={styles.cardCon_leftSide}>
             <img
               src="images/fullload.png"
@@ -103,7 +103,7 @@ function Card({ setProp }: servProps) {
               Разработка новых проектов в работе
             </span>
           </div>
-        </div>
+        </div> */}
       </div>
 
       {/* <svg

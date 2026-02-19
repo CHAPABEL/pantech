@@ -42,9 +42,9 @@ function App() {
                 Интергатор - это про доверие!
               </span>
               <span className={styles.textCon_discription}>
-                Мы являемся разработчиком ПО, вдохновляемые потребностями
-                общества! Вместе с этим, мы создаем решения для конкретных
-                задач, которые нам ставят наши Заказчики
+                Мы делаем ставку на компетенции своих сотрудников и высокое
+                качество работы. Команда компании решает задачи любого масштаба
+                для наших заказчиков.
               </span>
             </div>
           </div>
@@ -86,22 +86,20 @@ function App() {
       </main>
       <footer className={styles.footer}>
         {/* <img src="/images/Logo.svg" className={styles.footer_Logo} /> */}
-        <span className={styles.footer_contakt}>Контакты</span>
         <div className={styles.footer_linkCon}>
           <div className={styles.linCon_linksStay}>
-            <span className={styles.linksStay_span}>Телефон</span>
+            <span className={styles.linksStay_span}>Контакты</span>
+
             <a href="#" className={styles.leftSide_link}>
               +7 (495) 211-00-07
             </a>
-          </div>
-          <div className={styles.linCon_linksStay}>
-            <span className={styles.linksStay_span}>Телефон</span>
+
             <a href="#" className={styles.leftSide_link}>
               info@pan-tech.ru
             </a>
           </div>
           <div className={styles.linCon_linksStay}>
-            <span className={styles.linksStay_span}>Телефон</span>
+            <span className={styles.linksStay_span}>Адрес</span>
             <a href="#" className={styles.leftSide_link}>
               123100, Город Москва, ул Мантулинская, дом 16, помещение 2Ц
             </a>
