@@ -1,0 +1,25 @@
+.main_panel {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto; /* FIX: allow scrolling */
+  scroll-snap-type: y mandatory;
+
+  height: 100%;
+  gap: 20px;
+
+  padding: 20px;
+  .panel__change {
+    scroll-snap-align: start;
+    background: #fff;
+    padding: 30px 30px;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    .change_text {
+      font-size: 27px;
+      font-weight: 600;
+    }
+  }
+}

@@ -1,0 +1,115 @@
+body {
+  background: #fff;
+  height: 100vh;
+  width: 100%;
+}
+
+.main {
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+
+  height: 100%;
+  gap: 25px;
+
+  .main__top {
+    width: 100%;
+    display: flex;
+    align-items: center;
+
+    .main__topImg {
+      width: 70px;
+    }
+
+    .main__topLine {
+      display: flex;
+      align-items: center;
+      .main__topSpan {
+        font-size: 28px;
+        padding-top: 5px;
+        font-weight: 600;
+        color: #3075d8;
+        margin-left: 20px;
+      }
+    }
+  }
+
+  .auth {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+
+    height: 80vh;
+
+    .auth__authSpan {
+      font-size: 34px;
+      font-weight: 600;
+      color: #3075d8;
+    }
+
+    .auth__authDiv {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+
+      .auth__authInput,
+      .auth__authLabel {
+        user-select: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        padding: 15px;
+        width: 400px;
+        font-size: 18px;
+        display: flex;
+        justify-content: space-between;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+
+        &:focus {
+          outline: none;
+          border-color: #3075d8;
+        }
+      }
+
+      .auth__authEye {
+        width: 25px;
+        height: 25px;
+        cursor: pointer;
+        color: #3075d8;
+        transition: all 0.1s ease-in-out;
+
+        &:hover {
+          color: #4b89da;
+          scale: 1.1;
+        }
+      }
+      .auth__authInputPass {
+        border: none;
+        outline: none;
+        width: 90%;
+        font-size: 18px;
+      }
+    }
+
+    .auth__button {
+      padding: 15px;
+      background-color: #3075d8;
+      color: #fff;
+      width: 400px;
+      font-size: 16px;
+      border-radius: 5px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+
+      &:hover {
+        scale: 102%;
+        background-color: #4b89da;
+        box-shadow: 10px 5px rgba(0, 0, 0, 0.058);
+      }
+    }
+  }
+}

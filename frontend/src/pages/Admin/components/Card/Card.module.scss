@@ -1,0 +1,378 @@
+.app_productCards {
+  @include row;
+  gap: 15px;
+
+  .productCards_Container {
+    display: flex;
+    flex: 2;
+    background: $app-bg;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding: 10px 5px;
+    gap: 20px;
+
+    &::-webkit-scrollbar-thumb {
+      background: $primary-color;
+      border-radius: 20px;
+    }
+
+    .cardCon {
+      cursor: pointer;
+      @include row;
+      scroll-snap-align: start;
+      background: $card-bg;
+      gap: 25px;
+      border-radius: 15px;
+      width: 49%;
+
+      flex-shrink: 0;
+      transition: all ease-in-out;
+      transition-duration: 200ms;
+
+      &:hover {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        background-color: $primary-color;
+
+        .cardCon_leftSide {
+          background-color: #fff;
+        }
+      }
+
+      &:last-child {
+        .cardCon_leftSide {
+          background-color: $primary-color;
+          position: relative;
+          overflow: hidden;
+          width: 140px;
+          .leftSide_imageL {
+            max-width: 240px;
+            left: -120px;
+            position: absolute;
+          }
+        }
+        &:hover {
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+          background-color: $primary-color;
+
+          .cardCon_leftSide {
+            background-color: #fff;
+          }
+        }
+      }
+
+      .cardCon_leftSide {
+        background-color: $primary-color;
+
+        height: 100%;
+        border-radius: 15px;
+        display: flex;
+
+        align-items: start;
+        padding: 20px 20px 20px 0;
+        position: relative;
+        overflow: hidden;
+        width: 140px;
+
+        .leftSide_brialin {
+          width: 130px;
+          left: 3px;
+          height: 90%;
+          position: absolute;
+        }
+        .leftSide_image {
+          max-width: 240px;
+          left: -120px;
+          position: absolute;
+        }
+      }
+
+      .cardCon_textCon {
+        @include column;
+        width: 80%;
+        gap: 25px;
+        padding: 15px 0;
+        height: 100%;
+
+        .textCon_mainText {
+          font-size: 40px;
+          font-weight: 600;
+          text-transform: uppercase;
+          color: $text-color;
+        }
+
+        .textCon_disc {
+          font-size: 20px;
+          color: #313131;
+          font-weight: 600;
+        }
+
+        .textCon_stack {
+          @include column;
+          gap: 15px;
+
+          .stack_mnText {
+            font-size: 22px;
+            font-weight: 600;
+            color: $text-color;
+          }
+
+          .stack_logoCon {
+            display: flex;
+            gap: 20px;
+          }
+        }
+      }
+    }
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 1280px) {
+  .app_productCards {
+    .productCards_Container {
+      .cardCon {
+        .cardCon_leftSide {
+          padding: 12px 12px 12px 0px;
+        }
+        .cardCon_textCon {
+          .textCon_mainText {
+            font-size: 37px;
+          }
+        }
+      }
+    }
+  }
+}
+@media (max-width: 1024px) {
+  .app_productCards {
+    .arrow {
+      display: none;
+    }
+    .productCards_Container {
+      .cardCon {
+        .cardCon_leftSide {
+          padding: 8px 8px 8px 0px;
+        }
+        .cardCon_textCon {
+          gap: 10px;
+          .textCon_mainText {
+            font-size: 25px;
+          }
+
+          .textCon_disc {
+            font-size: 18px;
+          }
+
+          .textCon_stack {
+            @include column;
+            gap: 10px;
+
+            .stack_mnText {
+              font-size: 18px;
+              font-weight: 600;
+              color: $text-color;
+            }
+
+            .stack_logoCon {
+              display: flex;
+              gap: 20px;
+            }
+            .stack_logos {
+              width: 15%;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .app_productCards {
+    .arrow {
+      display: none;
+    }
+    .productCards_Container {
+      flex: 3;
+
+      .cardCon {
+        width: 70%;
+        .cardCon_leftSide {
+          padding: 8px 8px 8px 0px;
+        }
+        .cardCon_textCon {
+          gap: 10px;
+          .textCon_mainText {
+            font-size: 22px;
+          }
+
+          .textCon_disc {
+            font-size: 15px;
+          }
+
+          .textCon_stack {
+            @include column;
+            gap: 10px;
+
+            .stack_mnText {
+              font-size: 15px;
+              font-weight: 600;
+              color: $text-color;
+            }
+
+            .stack_logoCon {
+              display: flex;
+              gap: 20px;
+            }
+            .stack_logos {
+              width: 15%;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 432px) {
+  .app_productCards {
+    @include row;
+    gap: 15px;
+
+    .arrow {
+      height: 270px;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+
+      &:hover {
+        transform: scale(1.03);
+      }
+    }
+
+    .productCards_Container {
+      display: flex;
+      flex-direction: column;
+      flex: 2;
+      background: $app-bg;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      padding: 10px 5px;
+      gap: 20px;
+
+      &::-webkit-scrollbar-thumb {
+        background: $primary-color;
+        border-radius: 20px;
+      }
+
+      .cardCon {
+        cursor: pointer;
+        @include column;
+        scroll-snap-align: start;
+        justify-content: center;
+        background: $card-bg;
+        gap: 25px;
+        border: 1px solid $primary-color;
+        border-radius: 15px;
+        padding: 4px;
+        align-items: center;
+        width: 100%;
+        padding-top: 15px;
+        flex-shrink: 0;
+        transition: all ease-in-out;
+        transition-duration: 200ms;
+
+        &:hover {
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+          background-color: $primary-color;
+
+          .cardCon_leftSide {
+            background-color: #fff;
+          }
+        }
+
+        &:last-child {
+          .cardCon_leftSide {
+            align-items: center;
+            width: 95%;
+            .leftSide_imageL {
+              position: static;
+            }
+          }
+        }
+
+        .cardCon_leftSide {
+          background-color: $primary-color;
+          justify-content: center;
+          height: 270px;
+          width: 85%;
+          border-radius: 15px;
+          display: flex;
+          align-items: center;
+          padding: 20px 20px 20px 20px;
+          position: relative;
+          align-items: center;
+          width: 95%;
+          .leftSide_image {
+            position: static;
+            max-width: 100%;
+            max-height: 100%;
+          }
+        }
+
+        .cardCon_textCon {
+          @include column;
+          width: 85%;
+          text-align: center;
+          gap: 25px;
+          padding: 15px 0;
+
+          .textCon_mainText {
+            font-size: 32px;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: $text-color;
+          }
+
+          .textCon_disc {
+            font-size: 18px;
+          }
+
+          .textCon_stack {
+            @include column;
+            gap: 15px;
+
+            .stack_mnText {
+              font-size: 18px;
+              font-weight: 600;
+              color: $text-color;
+            }
+
+            .stack_logoCon {
+              align-items: center;
+              justify-content: center;
+              display: flex;
+              gap: 20px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
