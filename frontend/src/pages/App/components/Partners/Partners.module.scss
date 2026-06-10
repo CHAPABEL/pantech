@@ -1,0 +1,426 @@
+.partners {
+  @include column;
+  align-items: stretch;
+  font-family: "Montserrat", sans-serif;
+  background-color: #eff5ff;
+  border-radius: 20px;
+  padding: 40px 48px;
+  gap: 20px;
+  width: 100%;
+
+  .slider {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+  }
+
+  .navBtn {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    border: 1px solid #cfddf3;
+    background: #fff;
+    color: #3076d8;
+    cursor: pointer;
+    font-family: "Montserrat", sans-serif;
+    transition:
+      background 0.2s ease,
+      border-color 0.2s ease,
+      transform 0.15s ease;
+
+    &:hover {
+      background: #eef3fc;
+      border-color: #3076d8;
+    }
+
+    &:active {
+      transform: scale(0.96);
+    }
+  }
+
+  .viewport {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+    padding: 20px 0;
+  }
+
+  .track {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr 1fr;
+    align-items: center;
+    gap: 28px;
+    width: 100%;
+    max-width: 1180px;
+    margin: 0 auto;
+  }
+
+  .card {
+    width: 100%;
+    min-height: 280px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 16px;
+    padding: 28px 24px;
+    background: #ffffff;
+    border-radius: 20px;
+    border: 1px solid #dbe8fc;
+    cursor: pointer;
+    font-family: "Montserrat", sans-serif;
+    will-change: transform, opacity;
+    transition:
+      transform 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+      padding 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+      min-height 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+
+    &:focus-visible {
+      outline: 2px solid #3076d8;
+      outline-offset: 3px;
+    }
+  }
+
+  .cardSide {
+    transform: scale(0.94);
+    opacity: 0.82;
+    box-shadow: none;
+  }
+
+  .cardCenter {
+    transform: scale(1.06);
+    opacity: 1;
+    box-shadow: 0 12px 32px rgba(48, 118, 216, 0.18);
+    border-color: #bfd9ff;
+    z-index: 2;
+    padding: 32px 28px;
+    min-height: 300px;
+    cursor: default;
+  }
+
+  // --- slide forward (next) ---
+  .cardToLeft {
+    animation: cardToLeft 0.85s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .cardToCenter {
+    animation: cardToCenter 0.85s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .cardFromRight {
+    animation: cardFromRight 0.85s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  // --- slide backward (prev) ---
+  .cardToRight {
+    animation: cardToRight 0.85s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .cardToCenterRev {
+    animation: cardToCenterRev 0.85s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .cardFromLeft {
+    animation: cardFromLeft 0.85s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .logo {
+    width: 72px;
+    height: 72px;
+    object-fit: contain;
+    flex-shrink: 0;
+  }
+
+  .name {
+    margin: 0;
+    font-family: "Montserrat", sans-serif;
+    font-size: 25px;
+    font-weight: 600;
+    color: #292929;
+    line-height: 1.25;
+  }
+
+  .description {
+    margin: 0;
+    font-family: "Montserrat", sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1.45;
+    color: #292929;
+  }
+
+  .cardCenter .name {
+    font-size: 28px;
+  }
+
+  .cardCenter .description {
+    font-size: 20px;
+  }
+
+  .cardSide .name {
+    font-size: 22px;
+  }
+
+  .cardSide .description {
+    font-size: 16px;
+  }
+
+  .dots {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: none;
+    padding: 0;
+    background: #bfd9ff;
+    cursor: pointer;
+    transition:
+      background 0.2s ease,
+      transform 0.2s ease;
+
+    &:hover {
+      background: #8eb8f5;
+    }
+  }
+
+  .dotActive {
+    background: #3076d8;
+    transform: scale(1.2);
+  }
+
+  .empty {
+    text-align: center;
+    color: #748098;
+    font-size: 16px;
+    padding: 24px;
+  }
+}
+
+@keyframes cardToLeft {
+  from {
+    transform: translateX(42%) scale(1.06);
+    opacity: 0.95;
+  }
+  to {
+    transform: translateX(0) scale(0.94);
+    opacity: 0.82;
+  }
+}
+
+@keyframes cardToCenter {
+  from {
+    transform: translateX(38%) scale(0.94);
+    opacity: 0.82;
+  }
+  to {
+    transform: translateX(0) scale(1.06);
+    opacity: 1;
+  }
+}
+
+@keyframes cardFromRight {
+  from {
+    transform: translateX(65%) scale(0.88);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0) scale(0.94);
+    opacity: 0.82;
+  }
+}
+
+@keyframes cardToRight {
+  from {
+    transform: translateX(-42%) scale(1.06);
+    opacity: 0.95;
+  }
+  to {
+    transform: translateX(0) scale(0.94);
+    opacity: 0.82;
+  }
+}
+
+@keyframes cardToCenterRev {
+  from {
+    transform: translateX(-38%) scale(0.94);
+    opacity: 0.82;
+  }
+  to {
+    transform: translateX(0) scale(1.06);
+    opacity: 1;
+  }
+}
+
+@keyframes cardFromLeft {
+  from {
+    transform: translateX(-65%) scale(0.88);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0) scale(0.94);
+    opacity: 0.82;
+  }
+}
+
+@media (max-width: 1024px) {
+  .partners {
+    padding: 32px 28px;
+
+    .track {
+      gap: 20px;
+      max-width: 100%;
+    }
+
+    .card {
+      min-height: 260px;
+      padding: 24px 18px;
+    }
+
+    .cardCenter {
+      min-height: 280px;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .partners {
+    padding: 28px 20px;
+    gap: 16px;
+
+    .slider {
+      gap: 8px;
+    }
+
+    .navBtn {
+      width: 36px;
+      height: 36px;
+
+      svg {
+        width: 22px;
+        height: 22px;
+      }
+    }
+
+    .track {
+      gap: 12px;
+      grid-template-columns: 1fr 1.25fr 1fr;
+    }
+
+    .logo {
+      width: 56px;
+      height: 56px;
+    }
+
+    .cardCenter .name {
+      font-size: 22px;
+    }
+
+    .cardCenter .description {
+      font-size: 16px;
+    }
+
+    .cardSide .name {
+      font-size: 18px;
+    }
+
+    .cardSide .description {
+      font-size: 14px;
+    }
+  }
+}
+
+@media (max-width: 430px) {
+  .partners {
+    padding: 24px 12px;
+
+    .navBtn {
+      display: none;
+    }
+
+    .slider {
+      gap: 0;
+    }
+
+    .track {
+      gap: 8px;
+      grid-template-columns: 1fr 1.3fr 1fr;
+    }
+
+    .card {
+      gap: 10px;
+      padding: 16px 10px;
+      min-height: 200px;
+      border-radius: 16px;
+    }
+
+    .cardCenter {
+      padding: 18px 12px;
+      min-height: 220px;
+      transform: scale(1.04);
+    }
+
+    .cardSide {
+      transform: scale(0.92);
+    }
+
+    .logo {
+      width: 44px;
+      height: 44px;
+    }
+
+    .cardCenter .name {
+      font-size: 15px;
+    }
+
+    .cardCenter .description {
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    .cardSide .name {
+      font-size: 13px;
+    }
+
+    .cardSide .description {
+      font-size: 11px;
+      line-height: 1.3;
+      display: -webkit-box;
+      -webkit-line-clamp: 4;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .partners {
+    .cardToLeft,
+    .cardToCenter,
+    .cardFromRight,
+    .cardToRight,
+    .cardToCenterRev,
+    .cardFromLeft {
+      animation: none;
+    }
+
+    .card {
+      transition: none;
+    }
+  }
+}

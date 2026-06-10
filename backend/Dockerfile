@@ -1,21 +1,27 @@
+FROM python:3.12-slim AS base
 
-FROM python:3.12-slim
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PIP_NO_CACHE_DIR=1
 
 WORKDIR /app
 
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends build-essential libpq-dev \
+    && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt .
-
-
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
+RUN chmod +x /app/entrypoint.sh
 
-ARG FASTAPI_PORT=8000
+ARG FASTAPI_PORT=8080
 ENV FASTAPI_PORT=${FASTAPI_PORT}
-
 ARG FASTAPI_HOST=0.0.0.0
 ENV FASTAPI_HOST=${FASTAPI_HOST}
 
-CMD ["sh", "-c", "uvicorn main:app --host ${FASTAPI_HOST} --port ${FASTAPI_PORT} --reload"]
+EXPOSE ${FASTAPI_PORT}
+
+CMD ["/app/entrypoint.sh"]

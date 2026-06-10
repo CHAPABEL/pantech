@@ -1,20 +1,16 @@
-FROM node:latest AS build
+FROM node:22-alpine AS build
 WORKDIR /build
 
 COPY package.json package-lock.json ./
-RUN npm install
+RUN npm ci --no-audit --no-fund
 
 COPY . .
 RUN npm run build
 
 FROM nginx:alpine AS runner
 
-
 COPY --from=build /build/dist /usr/share/nginx/html
-
-
 COPY nginx/default.conf /etc/nginx/conf.d/default.conf
 
-EXPOSE 80
-
+EXPOSE 5173
 CMD ["nginx", "-g", "daemon off;"]

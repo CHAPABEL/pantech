@@ -1,0 +1,2 @@
+# Картинки из админки: partners/, cards/, services/, projects/, media/
+# URL в БД: /api/uploads/images/<категория>/<файл>

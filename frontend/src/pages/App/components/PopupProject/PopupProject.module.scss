@@ -173,6 +173,79 @@
   animation: fadeOut 0.3s ease forwards;
 }
 
+@media (max-width: 1024px) {
+  .app_prod {
+    padding: 16px;
+
+    .prod_conteiner {
+      margin: 0;
+      flex-direction: column;
+      gap: 24px;
+      max-height: 90vh;
+      overflow-y: auto;
+      width: 100%;
+      max-width: 720px;
+
+      .conteiner_left {
+        width: 100%;
+        height: 200px;
+
+        .left_img {
+          position: relative;
+          top: auto;
+          max-width: 100%;
+        }
+      }
+
+      .conteiner_right {
+        gap: 28px;
+
+        .textCon_top .top_main .main_mainText {
+          font-size: 32px;
+        }
+
+        .center {
+          flex-direction: column;
+          gap: 20px;
+
+          .center_task,
+          .center_realisation {
+            width: 100%;
+          }
+        }
+
+        .bottom {
+          flex-wrap: wrap;
+          gap: 16px;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .app_prod {
+    .prod_conteiner {
+      padding: 16px;
+
+      .conteiner_left {
+        display: none;
+      }
+
+      .conteiner_right {
+        .textCon_top .top_main .main_mainText {
+          font-size: 26px;
+        }
+
+        .bottom .bottom_technologies {
+          flex-wrap: wrap;
+          justify-content: center;
+        }
+      }
+    }
+  }
+}
+
 @media (max-width: 432px) {
   .app_prod {
     .prod_conteiner {

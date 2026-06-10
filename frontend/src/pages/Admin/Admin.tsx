@@ -1,35 +1,34 @@
 import module from "./Admin.module.scss";
 import Button from "./components/Button/Button";
-import { Command, Mail, User } from "lucide-react";
-import Panel from "./Functional/Panel/Panel";
-import { useState } from "react";
-const arrayMap = [
-  {
-    name: "Компоненты",
-    component: Command,
-    status: false,
-    route: "/",
-  },
-  {
-    name: "Письма",
-    component: Mail,
-    status: false,
-    route: "/",
-  },
-  {
-    name: "Пользователи",
-    component: User,
-    status: false,
-    route: "/",
-  },
+import { Command, LayoutDashboard, LogOut, Mail } from "lucide-react";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import { useAuth } from "../../contexts/AuthContext";
+import Seo from "../../components/Seo/Seo";
+
+const navItems = [
+  { name: "Главная", icon: LayoutDashboard, to: "/a", end: true },
+  { name: "Почта", icon: Mail, to: "/a/mail" },
+  { name: "Контент", icon: Command, to: "/a/content" },
 ];
 
 const Admin = () => {
-  const [activeButton, setActiveButton] = useState<number | null>(null);
+  const navigate = useNavigate();
+  const { logout } = useAuth();
+
+  const handleLogout = async () => {
+    await logout();
+    navigate("/in", { replace: true });
+  };
 
   return (
     <main className={module.main}>
-      <div className={module.main__leftSide}>
+      <Seo
+        title="Админ-панель"
+        description="Управление контентом сайта Pantech."
+        path="/a"
+        noindex
+      />
+      <aside className={module.main__leftSide}>
         <div>
           <div className={module.main__leftSideTop}>
             <img
@@ -40,27 +39,36 @@ const Admin = () => {
             <span className={module.main__leftSideTopSpan}>Pan-tech</span>
           </div>
 
-          <div className={module.main__leftSideContent}>
-            <div className={module.main__topLine}></div>
-            {arrayMap.map((item, index) => (
-              <Button
-                onClick={() => setActiveButton(index)}
-                status={activeButton === index}
-                Component={item.component}
-                key={index}
+          <nav className={module.main__leftSideContent}>
+            {navItems.map((item) => (
+              <NavLink
+                key={item.to}
+                to={item.to}
+                end={item.end}
+                className={({ isActive }) => (isActive ? "active-nav" : "")}
               >
-                {item.name}
-              </Button>
+                {({ isActive }) => (
+                  <Button Component={item.icon} status={isActive}>
+                    {item.name}
+                  </Button>
+                )}
+              </NavLink>
             ))}
-          </div>
+          </nav>
         </div>
         <div className={module.main__bottomLine}>
-          <button className={module.main__bottomButton}>Выйти</button>
+          <button
+            className={module.main__bottomButton}
+            onClick={handleLogout}
+            type="button"
+          >
+            <LogOut size={20} style={{ verticalAlign: "middle" }} /> Выйти
+          </button>
         </div>
-      </div>
-      <div className={module.main__rightSide}>
-        <Panel />
-      </div>
+      </aside>
+      <section className={module.main__rightSide}>
+        <Outlet />
+      </section>
     </main>
   );
 };

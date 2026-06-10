@@ -124,6 +124,16 @@
         @include maintext();
       }
     }
+    .main_partners {
+      @include column;
+      padding: 0 100px;
+      margin-bottom: 100px;
+      gap: 35px;
+
+      .partners_maintext {
+        @include maintext();
+      }
+    }
   }
 }
 
@@ -139,6 +149,14 @@
     font-weight: 600;
     color: #3076d8;
     font-size: 42px;
+  }
+
+  .footer_copyright {
+    font-size: 14px;
+    line-height: 1.5;
+    color: #474747;
+    max-width: 100%;
+    word-break: break-word;
   }
   .footer_linkCon {
     display: flex;
@@ -187,10 +205,43 @@
   }
 }
 
+@media (max-width: 1040px) {
+  .app_main {
+    gap: 60px;
+
+    .main_initial {
+      padding: 50px 60px 100px;
+    }
+
+    .main_content {
+      gap: 70px;
+
+      .main_productCards,
+      .main_services,
+      .main_projects {
+        padding: 0 60px;
+      }
+
+      .main_tech {
+        padding: 50px 60px;
+      }
+
+      .main_partners {
+        padding: 0 60px;
+        margin-bottom: 70px;
+      }
+    }
+  }
+
+  .footer {
+    padding: 40px 60px;
+  }
+}
+
 @media (max-width: 1024px) {
   .app_main {
     .main_initial {
-      padding: 50px 100px;
+      padding: 50px 60px 90px;
 
       .initial_image {
         height: 120%;
@@ -250,10 +301,14 @@
 
 @media (max-width: 768px) {
   .app_main {
+    gap: 50px;
+
     .main_initial {
-      height: 350px;
+      min-height: 320px;
+      height: auto;
+      padding: 40px 24px 60px;
       display: flex;
-      align-items: end;
+      align-items: flex-end;
       .initial_image {
         height: 90%;
         opacity: 30%;
@@ -272,17 +327,18 @@
         align-items: center;
 
         gap: 18px;
-        width: 95%;
+        width: 100%;
 
         .textCon_mainText {
           display: flex;
           justify-content: center;
+          flex-wrap: wrap;
           .mainText_Pan {
             display: inline-block;
             vertical-align: middle;
             font-weight: 600;
             color: #3175d8;
-            font-size: 72px;
+            font-size: 48px;
           }
 
           .mainText_tech {
@@ -290,7 +346,7 @@
             vertical-align: middle;
             font-weight: 600;
 
-            font-size: 72px;
+            font-size: 48px;
           }
         }
 
@@ -315,10 +371,12 @@
     }
 
     .main_content {
+      gap: 60px;
+
       .main_productCards {
         display: flex;
         flex-direction: column;
-        padding: 0px 70px;
+        padding: 0 24px;
         gap: 25px;
 
         .productCards_maintext {
@@ -330,7 +388,7 @@
 
       .main_services {
         gap: 35px;
-        padding: 0px 70px;
+        padding: 0 24px;
         .services_maintext {
           font-size: 27px;
           color: #292929;
@@ -338,7 +396,7 @@
         }
       }
       .main_projects {
-        padding: 0px 70px;
+        padding: 0 24px;
         gap: 35px;
         .projects_maintext {
           font-size: 27px;
@@ -349,11 +407,20 @@
       .main_tech {
         background-color: #ebf0f8;
         gap: 35px;
-        padding: 50px 50px;
+        padding: 40px 24px;
         .tech_maintext {
           font-size: 27px;
           color: #292929;
           font-weight: 600;
+        }
+      }
+
+      .main_partners {
+        padding: 0 24px;
+        margin-bottom: 60px;
+
+        .partners_maintext {
+          font-size: 27px;
         }
       }
     }
@@ -361,7 +428,7 @@
 
   .footer {
     @include column;
-    padding: 80px 80px;
+    padding: 40px 24px;
     background: #bfd9ff;
     gap: 50px;
     .footer_mnText {
@@ -399,10 +466,13 @@
 
 @media (max-width: 430px) {
   .app_main {
+    gap: 40px;
+
     .main_initial {
-      height: 550px;
+      min-height: 280px;
+      height: auto;
       display: flex;
-      padding: 10px;
+      padding: 24px 16px 40px;
       align-items: center;
 
       .initial_image {
@@ -458,58 +528,33 @@
     }
 
     .main_content {
-      .main_productCards {
-        display: flex;
-        flex-direction: column;
-        padding: 0px 70px;
-        gap: 25px;
+      gap: 50px;
 
-        .productCards_maintext {
-          font-size: 27px;
-          color: #292929;
-          font-weight: 600;
-        }
-      }
-
-      .main_services {
-        gap: 35px;
-        padding: 0px 70px;
-        .services_maintext {
-          font-size: 27px;
-          color: #292929;
-          font-weight: 600;
-        }
-      }
+      .main_productCards,
+      .main_services,
       .main_projects {
-        padding: 0px 70px;
-        gap: 35px;
-        .projects_maintext {
-          font-size: 27px;
-          color: #292929;
-          font-weight: 600;
-        }
+        padding: 0 16px;
       }
+
       .main_tech {
-        background-color: #ebf0f8;
-        gap: 35px;
-        padding: 50px 50px;
-        .tech_maintext {
-          font-size: 27px;
-          color: #292929;
-          font-weight: 600;
-        }
+        padding: 32px 16px;
+      }
+
+      .main_partners {
+        padding: 0 16px;
+        margin-bottom: 50px;
       }
     }
   }
 
   .footer {
-    @include row;
+    @include column;
     height: auto;
     background: #bfd9ff;
     width: 100%;
-    gap: 25px;
-    align-items: center;
-    justify-content: center;
+    gap: 20px;
+    padding: 32px 16px;
+    align-items: flex-start;
 
     .footer_linkCon {
       display: flex;

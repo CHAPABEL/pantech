@@ -1,119 +1,143 @@
-from fastapi import APIRouter, Form, File, UploadFile, HTTPException
-from fastapi.responses import JSONResponse
-from email.message import EmailMessage
+from __future__ import annotations
+
+import asyncio
+import re
 import smtplib
-from config import settings
-from datetime import datetime
+import unicodedata
 from pathlib import Path
-from .email_logger import log_email_entry
 
-router = APIRouter()
+from fastapi import APIRouter, Depends, File, Form, HTTPException, UploadFile
+from fastapi.responses import JSONResponse
+from sqlalchemy.ext.asyncio import AsyncSession
 
-MAX_FILE_SIZE = 20 * 1024 * 1024  # 20 МБ
-UPLOAD_DIR = Path("uploads")
-UPLOAD_DIR.mkdir(exist_ok=True)
+from db import get_session
+from models import Message
+from services.mailer import build_message, send_message
+from services.media import ATTACHMENTS_DIR
 
-@router.post("/send-email")
+router = APIRouter(tags=["messages"])
+
+MAX_FILE_SIZE = 20 * 1024 * 1024  # 20 MB
+UPLOAD_DIR = ATTACHMENTS_DIR
+UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
+
+_SAFE_FILENAME_RE = re.compile(r"[^A-Za-zА-Яа-яЁё0-9_.\- ]+")
+
+
+def _sanitize_filename(name: str) -> str:
+    name = unicodedata.normalize("NFC", name).strip().replace("/", "_").replace("\\", "_")
+    name = _SAFE_FILENAME_RE.sub("_", name)
+    return name[:128] or "upload.bin"
+
+
+async def _save_upload(file: UploadFile) -> tuple[Path, bytes]:
+    content = await file.read()
+    if len(content) > MAX_FILE_SIZE:
+        raise HTTPException(status_code=413, detail="Файл слишком большой. Максимум 20 МБ.")
+    safe = _sanitize_filename(file.filename or "upload.bin")
+    path = UPLOAD_DIR / safe
+    counter = 1
+    while path.exists():
+        stem, suffix = path.stem, path.suffix
+        path = UPLOAD_DIR / f"{stem}_{counter}{suffix}"
+        counter += 1
+    path.write_bytes(content)
+    return path, content
+
+
+async def _process_message(
+    *,
+    session: AsyncSession,
+    name: str,
+    direction: str | None,
+    email: str,
+    phone: str,
+    about: str,
+    file: UploadFile | None,
+) -> JSONResponse:
+    saved_path: Path | None = None
+    file_bytes: bytes | None = None
+
+    if file is not None and file.filename:
+        saved_path, file_bytes = await _save_upload(file)
+
+    msg = build_message(
+        name=name,
+        direction=direction,
+        email=email,
+        phone=phone,
+        about=about,
+        file_name=saved_path.name if saved_path else None,
+        file_bytes=file_bytes,
+    )
+
+    record = Message(
+        name=name,
+        email=email,
+        phone=phone,
+        direction=direction,
+        about=about,
+        file_path=str(saved_path) if saved_path else None,
+        status="pending",
+    )
+    session.add(record)
+    await session.flush()
+
+    try:
+        await asyncio.to_thread(send_message, msg)
+    except smtplib.SMTPException as smtp_err:
+        record.status = "error"
+        record.error = f"SMTP error: {smtp_err}"
+        await session.commit()
+        return JSONResponse(
+            {"message": f"SMTP error: {smtp_err}"}, status_code=500
+        )
+    except Exception as exc:  # noqa: BLE001
+        record.status = "error"
+        record.error = f"{type(exc).__name__}: {exc}"
+        await session.commit()
+        return JSONResponse(
+            {"message": "Ошибка при отправке письма"}, status_code=500
+        )
+
+    record.status = "sent"
+    await session.commit()
+    return JSONResponse({"message": "Письмо отправлено!"}, status_code=201)
+
+
+@router.post("/api/messages")
+@router.post("/send-email")  # legacy alias
 async def send_email(
     name: str = Form(...),
     direction: str | None = Form(None),
     email: str = Form(...),
     phone: str = Form(...),
     about: str = Form(...),
-    file: UploadFile | None = File(None)
-):
-    saved_file_path = None
-
+    file: UploadFile | None = File(None),
+    session: AsyncSession = Depends(get_session),
+) -> JSONResponse:
     try:
-        text_content = f"""
-Новое сообщение с сайта Pantech
-Пользователь: {name}
-Направление: {direction or "не указано"}
-Email: {email}
-Телефон: {phone}
-О проекте: {about}
-"""
-        html_content = f"""
-<html>
-  <body style="font-family: Arial, sans-serif;">
-    <h2 style="color:#327be1;">Новое сообщение с сайта Pantech</h2>
-    <p><strong>Пользователь:</strong> {name}</p>
-    <p><strong>Направление:</strong> {direction or 'не указано'}</p>
-    <p><strong>Email:</strong> {email}</p>
-    <p><strong>Телефон:</strong> {phone}</p>
-    <p><strong>О проекте:</strong><br>{about}</p>
-  </body>
-</html>
-"""
-
-        msg = EmailMessage()
-        msg['Subject'] = 'Новое сообщение с сайта Pantech'
-        msg['From'] = settings.smtp_user
-        msg['To'] = settings.recipient_email
-        msg.set_content(text_content)
-        msg.add_alternative(html_content, subtype="html")
-
-        # Обработка вложений
-        if file:
-            file_content = await file.read()
-            if len(file_content) > MAX_FILE_SIZE:
-                raise HTTPException(status_code=413, detail="Файл слишком большой. Максимум 20 МБ.")
-            saved_file_path = UPLOAD_DIR / file.filename
-            with open(saved_file_path, "wb") as f:
-                f.write(file_content)
-            msg.add_attachment(
-                file_content,
-                maintype="application",
-                subtype="octet-stream",
-                filename=file.filename
-            )
-
-        # Отправка через Reg.ru SSL SMTP (порт 465)
-        try:
-            with smtplib.SMTP_SSL(settings.smtp_host, 465, timeout=10) as smtp:
-                smtp.login(settings.smtp_user, settings.smtp_pass)
-                smtp.send_message(msg)
-        except smtplib.SMTPException as smtp_err:
-            raise HTTPException(status_code=500, detail=f"SMTP error: {smtp_err}")
-        except Exception as e:
-            raise HTTPException(status_code=500, detail=f"Ошибка при отправке письма: {e}")
-
-        # Логирование
-        log_email_entry({
-            "name": name,
-            "direction": direction,
-            "email": email,
-            "phone": phone,
-            "about": about,
-            "file": saved_file_path.name if saved_file_path else None,
-            "sent_at": datetime.utcnow().isoformat(),
-            "status": "sent"
-        })
-
-        return JSONResponse({"message": "Письмо отправлено!"}, status_code=201)
-
+        return await _process_message(
+            session=session,
+            name=name,
+            direction=direction,
+            email=email,
+            phone=phone,
+            about=about,
+            file=file,
+        )
     except HTTPException as he:
-        log_email_entry({
-            "name": name,
-            "direction": direction,
-            "email": email,
-            "phone": phone,
-            "about": about,
-            "file": saved_file_path.name if saved_file_path else None,
-            "sent_at": datetime.utcnow().isoformat(),
-            "status": f"error: {he.detail}"
-        })
+        # Persist the failed attempt so admins can see it.
+        session.add(
+            Message(
+                name=name,
+                email=email,
+                phone=phone,
+                direction=direction,
+                about=about,
+                status="error",
+                error=str(he.detail),
+            )
+        )
+        await session.commit()
         return JSONResponse({"message": he.detail}, status_code=he.status_code)
-
-    except Exception as e:
-        log_email_entry({
-            "name": name,
-            "direction": direction,
-            "email": email,
-            "phone": phone,
-            "about": about,
-            "file": saved_file_path.name if saved_file_path else None,
-            "sent_at": datetime.utcnow().isoformat(),
-            "status": f"error: {str(e)}"
-        })
-        return JSONResponse({"message": "Ошибка при отправке письма"}, status_code=500)

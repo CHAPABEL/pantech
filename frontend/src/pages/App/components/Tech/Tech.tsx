@@ -1,7 +1,10 @@
 import { useState } from "react";
 import styles from "./Tech.module.scss";
+import { useContent } from "../../../../contexts/ContentContext";
 
-const techData = [
+type TechGroup = { id: number; title: string; content: string[] };
+
+const FALLBACK: TechGroup[] = [
   {
     id: 1,
     title: "Analysis/PM",
@@ -89,7 +92,9 @@ const techData = [
 ];
 
 function Tech() {
-  const [selectedId, setSelectedId] = useState<number>(1);
+  const { json } = useContent();
+  const groups = json<TechGroup[]>("tech.groups", FALLBACK);
+  const [selectedId, setSelectedId] = useState<number>(groups[0]?.id ?? 1);
   const [fade, setFade] = useState<boolean>(true);
 
   const handleClick = (id: number) => {
@@ -100,12 +105,12 @@ function Tech() {
     }, 200);
   };
 
-  const selectedData = techData.find((item) => item.id === selectedId);
+  const selectedData = groups.find((item) => item.id === selectedId) ?? groups[0];
 
   return (
     <div className={styles.tech_container}>
       <div className={styles.container_buttons}>
-        {techData.map((item) => (
+        {groups.map((item) => (
           <button
             key={item.id}
             className={`${styles.buttons_btn} ${

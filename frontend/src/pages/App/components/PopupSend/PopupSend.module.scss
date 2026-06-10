@@ -377,24 +377,31 @@
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
   .app_popupSend {
-    .popup_content {
-      padding: 15px 15px;
+    padding: 16px;
+
+    .popupSend_content {
+      width: 100%;
+      max-width: 560px;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 28px 24px;
     }
 
-    .popup_title {
-      font-size: 15px;
+    .content_textCon .textCon_top .top_main {
+      font-size: 28px;
     }
 
-    .popup_subtitle {
-      font-size: 12px;
+    .content_textCon .textCon_disc {
+      width: 100%;
+      font-size: 17px;
     }
 
-    .popup_form {
-      .form_row {
-        flex-direction: column;
-      }
+    .popupSend_loading {
+      width: 100%;
+      max-width: 560px;
+      height: 280px;
     }
   }
 }

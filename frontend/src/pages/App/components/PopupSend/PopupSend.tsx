@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { X, LoaderCircle } from "lucide-react";
 import styles from "./PopupSend.module.scss";
+import { useContent } from "../../../../contexts/ContentContext";
+import { api, ApiError } from "../../../../services/api";
 
 type popupType = {
   prop: boolean;
@@ -18,15 +20,12 @@ function PopupSend({ setProp, selectedService }: popupType) {
   const [status, setStatus] = useState<number | null>(null);
   const [checkVal, setCheckVal] = useState(false);
   const [showError, setShowError] = useState(false);
+  const { t } = useContent();
 
   const triggerError = () => {
     setShowError(true);
-    setTimeout(() => {
-      setShowError(false);
-    }, 3000);
+    setTimeout(() => setShowError(false), 3000);
   };
-
-  const backendUrl = "/api/send-email";
 
   useEffect(() => {
     document.body.style.overflow = "hidden";
@@ -35,28 +34,11 @@ function PopupSend({ setProp, selectedService }: popupType) {
     };
   }, []);
 
-  // type EmailFormType = {
-  //   name: string;
-  //   direction: string;
-  //   email: string;
-  //   phone: string;
-  //   about: string;
-  // };
-
-  // const dataFormObject: EmailFormType = {
-  //   name: name,
-  //   direction: selectedService || "",
-  //   email: email,
-  //   phone: phoneVal.replace(/\D/g, ""),
-  //   about: about,
-  // };
-
   async function dataFormRequest() {
     const allField = [name, email, phoneVal.replace(/\D/g, ""), about].every(
       (value) => value.trim() !== "",
     );
     if (!allField) {
-      console.error("Заполните все поля", 422);
       setStatus(422);
       triggerError();
       return;
@@ -69,26 +51,13 @@ function PopupSend({ setProp, selectedService }: popupType) {
       formData.append("email", email);
       formData.append("phone", phoneVal.replace(/\D/g, ""));
       formData.append("about", about);
-      if (File) {
-        formData.append("file", File);
-      }
+      if (File) formData.append("file", File);
 
-      const response = await fetch(backendUrl, {
-        method: "POST",
-        body: formData,
-      });
-      if (!response.ok) {
-        setStatus(response.status);
-        return;
-      } else {
-        // console.log(response);
-      }
-
-      // const data = await response.json();
-      // console.log(data);
+      await api.postForm<{ message: string }>("/messages", formData);
       setStatus(201);
-    } catch (erorr) {
-      // console.error(erorr);
+    } catch (err) {
+      if (err instanceof ApiError) setStatus(err.status);
+      else setStatus(500);
     }
   }
 
@@ -133,12 +102,16 @@ function PopupSend({ setProp, selectedService }: popupType) {
         <div className={styles.popupSend_content}>
           <div className={styles.content_textCon}>
             <div className={styles.textCon_top}>
-              <h1 className={styles.top_main}>Написать нам</h1>
+              <h1 className={styles.top_main}>
+                {t("popup_send.title", "Написать нам")}
+              </h1>
               <X className={styles.top_svg} size="34px" onClick={handleClose} />
             </div>
             <span className={styles.textCon_disc}>
-              Оставьте контакты, чтобы могли обсудить проект и условия
-              сотрудничества
+              {t(
+                "popup_send.description",
+                "Оставьте контакты, чтобы могли обсудить проект и условия сотрудничества",
+              )}
             </span>
           </div>
           <div
@@ -196,7 +169,7 @@ function PopupSend({ setProp, selectedService }: popupType) {
             <label className={styles.buttons_fileCon}>
               <img src="images/file.svg" className={styles.fileCon_img} />
               <span className={styles.fileCon_text}>
-                Прикрепить файл до 10 Мб
+                Прикрепить файл до 20 Мб
               </span>
               <input
                 type="file"
@@ -232,7 +205,10 @@ function PopupSend({ setProp, selectedService }: popupType) {
                 <span className={styles.custom_span}></span>
               </label>
               <a className={styles.selectbox_text}>
-                Я согласен(а) на обработку персональных данных
+                {t(
+                  "popup_send.consent",
+                  "Я согласен(а) на обработку персональных данных",
+                )}
               </a>
             </div>
             <button
@@ -241,12 +217,10 @@ function PopupSend({ setProp, selectedService }: popupType) {
               }`}
               disabled={!checkVal}
               onClick={() => {
-                if (checkVal) {
-                  dataFormRequest();
-                }
+                if (checkVal) void dataFormRequest();
               }}
             >
-              Отправить
+              {t("popup_send.submit", "Отправить")}
             </button>
           </div>
         </div>
@@ -255,10 +229,10 @@ function PopupSend({ setProp, selectedService }: popupType) {
           <X className={styles.success_svg} size="34px" onClick={handleClose} />
           <img src="images/Success.svg" className={styles.success_img} />
           <span className={styles.success_main}>
-            Спасибо! Ваша заявка отправлена
+            {t("popup_send.success.title", "Спасибо! Ваша заявка отправлена")}
           </span>
           <span className={styles.success_text}>
-            Мы свяжемся с вами в рабочее время
+            {t("popup_send.success.text", "Мы свяжемся с вами в рабочее время")}
           </span>
         </div>
       ) : status == 100 ? (

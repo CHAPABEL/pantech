@@ -1,12 +1,36 @@
 /* reset.scss */
 @import url("https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Space+Grotesk:wght@300..700&display=swap");
 
+$font-main: "Montserrat", sans-serif;
+
+body,
+button,
+input,
+textarea,
+select,
+label,
+h1,
+h2,
+h3,
+h4,
+p,
+span,
+a {
+  font-family: $font-main;
+}
+
 p,
 span,
 h1,
+h2,
+h3,
+h4,
 a,
-input {
-  font-family: "Montserrat", sans-serif;
+input,
+textarea,
+select,
+label,
+button {
   padding: 0;
   margin: 0;
   color: #292929;
@@ -25,6 +49,7 @@ body {
   padding: 0;
   margin: 0;
   background-color: #ebf0f8;
+  overflow-x: hidden;
 }
 
 ul,
