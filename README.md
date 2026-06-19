@@ -5,7 +5,7 @@
 - **Frontend** — React 19 + Vite + TypeScript, статика отдаётся Nginx из `frontend/`.
 - **Backend** — FastAPI + SQLAlchemy 2 (async) + asyncpg, миграции на Alembic.
 - **БД** — PostgreSQL 15 в контейнере `db`.
-- **Reverse proxy** — Nginx внутри образа `web`, прокидывает `/api/*` в `backend:8080`.
+- **Reverse proxy** — Nginx внутри образа `web` (порт **80**), прокидывает `/api/*` в `backend:${FASTAPI_PORT}`. Снаружи пробрасывается как `${WEB_PUBLISH_PORT:-5173}:80`.
 
 ## Быстрый старт
 
@@ -59,7 +59,39 @@ docker compose -f docker-compose.yml -f docker-compose.dev.yml up --build
 cd frontend && npm install && npm run dev
 ```
 
-API в dev-режиме доступен по `http://localhost:8080/api/...`. Vite проксирует запросы через nginx-контейнер только в Docker; для standalone-frontend можно либо обращаться напрямую, либо настроить vite-proxy.
+API в dev-режиме:
+- **Docker** (`docker compose up`) — только через nginx: `http://localhost:5173/api/...`
+- **`npm run dev`** — Vite проксирует `/api` → `http://127.0.0.1:8080` (нужен запущенный backend)
+
+### Деплой на сервер (502 Bad Gateway)
+
+**Частая ошибка:** `WEB_PUBLISH_PORT=80` при уже работающем системном nginx → Docker не может занять порт → 502 в браузере.
+
+1. В `.env` на сервере:
+   ```env
+   WEB_PUBLISH_PORT=5173
+   FRONTEND_ORIGIN=https://ваш-домен.ru
+   FASTAPI_PORT=8080
+   COOKIE_SECURE=true
+   ```
+2. Системный nginx проксирует на Docker (пример: [deploy/host-nginx.example.conf](./deploy/host-nginx.example.conf)):
+   ```nginx
+   proxy_pass http://127.0.0.1:5173;
+   ```
+3. Деплой:
+   ```bash
+   docker compose down
+   docker compose up --build -d
+   docker compose ps
+   curl -s http://127.0.0.1:5173/          # HTML
+   curl -s http://127.0.0.1:5173/api/health  # {"status":"ok"}
+   ```
+4. Если 502 остаётся — смотрите логи:
+   ```bash
+   docker compose logs web --tail 50
+   docker compose logs backend --tail 80
+   sudo nginx -t && sudo systemctl status nginx
+   ```
 
 ## Миграции
 

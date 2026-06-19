@@ -9,8 +9,13 @@ RUN npm run build
 
 FROM nginx:alpine AS runner
 
-COPY --from=build /build/dist /usr/share/nginx/html
-COPY nginx/default.conf /etc/nginx/conf.d/default.conf
+ENV NGINX_PORT=80 \
+    BACKEND_HOST=backend \
+    BACKEND_PORT=8080
 
-EXPOSE 5173
+COPY --from=build /build/dist /usr/share/nginx/html
+COPY nginx/default.conf.template /etc/nginx/templates/default.conf.template
+
+EXPOSE 80
+
 CMD ["nginx", "-g", "daemon off;"]
