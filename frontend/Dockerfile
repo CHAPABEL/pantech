@@ -1,8 +1,12 @@
 FROM node:22-alpine AS build
 WORKDIR /build
 
+# На сервере DNS может не резолвить storage.googleapis.com (puppeteer/chromium).
+ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=1 \
+    PUPPETEER_SKIP_DOWNLOAD=1
+
 COPY package.json package-lock.json ./
-RUN npm ci --no-audit --no-fund
+RUN npm ci --no-audit --no-fund --ignore-scripts && npm rebuild esbuild
 
 COPY . .
 RUN npm run build
