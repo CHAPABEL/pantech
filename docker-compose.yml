@@ -2,13 +2,9 @@ services:
   web:
     build:
       context: frontend
+      network: host
     ports:
-      # nginx внутри контейнера слушает 80. На сервере биндим localhost:5173 — внешний nginx проксирует сюда.
       - "127.0.0.1:${WEB_PUBLISH_PORT:-5173}:80"
-    environment:
-      NGINX_PORT: 80
-      BACKEND_HOST: backend
-      BACKEND_PORT: ${FASTAPI_PORT:-8080}
     depends_on:
       backend:
         condition: service_started
@@ -29,6 +25,7 @@ services:
   backend:
     build:
       context: ./backend
+      network: host
       args:
         FASTAPI_PORT: ${FASTAPI_PORT:-8080}
     env_file:

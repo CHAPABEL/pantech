@@ -63,35 +63,7 @@ API в dev-режиме:
 - **Docker** (`docker compose up`) — только через nginx: `http://localhost:5173/api/...`
 - **`npm run dev`** — Vite проксирует `/api` → `http://127.0.0.1:8080` (нужен запущенный backend)
 
-### Деплой на сервер (502 Bad Gateway)
-
-**Частая ошибка:** `WEB_PUBLISH_PORT=80` при уже работающем системном nginx → Docker не может занять порт → 502 в браузере.
-
-1. В `.env` на сервере:
-   ```env
-   WEB_PUBLISH_PORT=5173
-   FRONTEND_ORIGIN=https://ваш-домен.ru
-   FASTAPI_PORT=8080
-   COOKIE_SECURE=true
-   ```
-2. Системный nginx проксирует на Docker (пример: [deploy/host-nginx.example.conf](./deploy/host-nginx.example.conf)):
-   ```nginx
-   proxy_pass http://127.0.0.1:5173;
-   ```
-3. Деплой:
-   ```bash
-   docker compose down
-   docker compose up --build -d
-   docker compose ps
-   curl -s http://127.0.0.1:5173/          # HTML
-   curl -s http://127.0.0.1:5173/api/health  # {"status":"ok"}
-   ```
-4. Если 502 остаётся — смотрите логи:
-   ```bash
-   docker compose logs web --tail 50
-   docker compose logs backend --tail 80
-   sudo nginx -t && sudo systemctl status nginx
-   ```
+Системный nginx для pan-tech.ru: [nginx/pan-tech.conf](./nginx/pan-tech.conf) → `127.0.0.1:5173`
 
 ## Миграции
 
