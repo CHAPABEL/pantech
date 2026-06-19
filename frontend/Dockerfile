@@ -15,6 +15,6 @@ FROM nginx:alpine AS runner
 COPY --from=build /build/dist /usr/share/nginx/html
 COPY nginx/default.conf /etc/nginx/conf.d/default.conf
 
-EXPOSE 80
+EXPOSE 5173
 
 CMD ["nginx", "-g", "daemon off;"]

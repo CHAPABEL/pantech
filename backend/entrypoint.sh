@@ -1,7 +1,7 @@
 #!/bin/sh
 set -e
 
-# Wait for the database to be ready (best-effort).
+echo "[entrypoint] waiting for database..."
 python - <<'PY'
 import os
 import socket
@@ -17,29 +17,31 @@ if url:
     while time.time() < deadline:
         try:
             with socket.create_connection((host, port), timeout=2):
+                print(f"[entrypoint] database reachable at {host}:{port}")
                 break
         except OSError:
             time.sleep(1)
     else:
-        print(f"warning: db {host}:{port} not reachable after 60s")
+        print(f"[entrypoint] warning: db {host}:{port} not reachable after 60s")
 PY
 
+echo "[entrypoint] running alembic upgrade head..."
 alembic upgrade head
+echo "[entrypoint] migrations complete"
 
 python - <<'PY'
 from services.media import ensure_upload_dirs
 ensure_upload_dirs()
+print("[entrypoint] upload directories ready")
 PY
 
 if [ "${RUN_SEED:-0}" = "1" ]; then
-    python -m seeds.initial || true
+    echo "[entrypoint] running seed..."
+    python -m seeds.initial || echo "[entrypoint] seed finished with warnings"
 fi
 
 PORT="${FASTAPI_PORT:-8080}"
 HOST="${FASTAPI_HOST:-0.0.0.0}"
-RELOAD_FLAG=""
-if [ "${UVICORN_RELOAD:-0}" = "1" ]; then
-    RELOAD_FLAG="--reload"
-fi
 
-exec uvicorn main:app --host "$HOST" --port "$PORT" $RELOAD_FLAG
+echo "[entrypoint] starting uvicorn on ${HOST}:${PORT}..."
+exec uvicorn main:app --host "$HOST" --port "$PORT"

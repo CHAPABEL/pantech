@@ -4,20 +4,9 @@ services:
       context: frontend
       network: host
     ports:
-      - "127.0.0.1:${WEB_PUBLISH_PORT:-5173}:80"
+      - "${WEB_PUBLISH_PORT:-5173}:5173"
     depends_on:
-      backend:
-        condition: service_started
-    healthcheck:
-      test:
-        [
-          "CMD-SHELL",
-          "wget --no-verbose --tries=1 --spider http://127.0.0.1:80/ || exit 1",
-        ]
-      interval: 15s
-      timeout: 5s
-      retries: 3
-      start_period: 10s
+      - backend
     networks:
       - docker_network
     restart: unless-stopped
@@ -31,23 +20,13 @@ services:
     env_file:
       - ./.env
     environment:
-      DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@db:5432/${POSTGRES_DB:-pantech_db}
+      DATABASE_URL: ${DATABASE_URL:-postgresql+asyncpg://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@db:5432/${POSTGRES_DB:-pantech_db}}
       RUN_SEED: ${RUN_SEED:-1}
     depends_on:
       db:
         condition: service_healthy
     expose:
       - "${FASTAPI_PORT:-8080}"
-    healthcheck:
-      test:
-        [
-          "CMD-SHELL",
-          "python -c \"import os, urllib.request; urllib.request.urlopen('http://127.0.0.1:' + os.environ.get('FASTAPI_PORT', '8080') + '/api/health', timeout=3)\"",
-        ]
-      interval: 10s
-      timeout: 5s
-      retries: 8
-      start_period: 90s
     volumes:
       - ./backend/uploads:/app/uploads
     networks:

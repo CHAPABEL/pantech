@@ -5,7 +5,7 @@
 - **Frontend** — React 19 + Vite + TypeScript, статика отдаётся Nginx из `frontend/`.
 - **Backend** — FastAPI + SQLAlchemy 2 (async) + asyncpg, миграции на Alembic.
 - **БД** — PostgreSQL 15 в контейнере `db`.
-- **Reverse proxy** — Nginx внутри образа `web` (порт **80**), прокидывает `/api/*` в `backend:${FASTAPI_PORT}`. Снаружи пробрасывается как `${WEB_PUBLISH_PORT:-5173}:80`.
+- **Reverse proxy** — Nginx в контейнере `web` слушает **5173**, проксирует `/api/*` в `backend:8080`. Снаружи: `${WEB_PUBLISH_PORT:-5173}:5173`. Глобальный nginx на сервере → `127.0.0.1:5173`.
 
 ## Быстрый старт
 
@@ -63,7 +63,7 @@ API в dev-режиме:
 - **Docker** (`docker compose up`) — только через nginx: `http://localhost:5173/api/...`
 - **`npm run dev`** — Vite проксирует `/api` → `http://127.0.0.1:8080` (нужен запущенный backend)
 
-Системный nginx для pan-tech.ru: [nginx/pan-tech.conf](./nginx/pan-tech.conf) → `127.0.0.1:5173`
+Системный nginx: [nginx/pan-tech.conf](./nginx/pan-tech.conf) — один `location /` на `127.0.0.1:5173` (без отдельного `/api` на :8080).
 
 ## Миграции
 
