@@ -3,6 +3,15 @@ import shared from "../admin-shared.module.scss";
 import styles from "./Mail.module.scss";
 import { api, ApiError } from "../../../../services/api";
 import type { MessageItem } from "../../../../services/types";
+import { resolveAssetUrl } from "../../../../services/assets";
+
+function fileName(path: string): string {
+  try {
+    return decodeURIComponent(path.split("/").pop() || path);
+  } catch {
+    return path;
+  }
+}
 
 type ListResponse = { items: MessageItem[]; total: number };
 
@@ -146,7 +155,20 @@ export default function Mail() {
                     </div>
                     <div>
                       <dt>Файл</dt>
-                      <dd>{m.file_path || "—"}</dd>
+                      <dd>
+                        {m.file_path ? (
+                          <a
+                            href={resolveAssetUrl(m.file_path)}
+                            target="_blank"
+                            rel="noreferrer"
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            {fileName(m.file_path)}
+                          </a>
+                        ) : (
+                          "—"
+                        )}
+                      </dd>
                     </div>
                     {m.error && (
                       <div>

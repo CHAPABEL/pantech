@@ -119,6 +119,8 @@ class Partner(Base, TimestampMixin):
     title: Mapped[str] = mapped_column(String(255), nullable=False)
     description: Mapped[str] = mapped_column(Text, nullable=False, default="")
     image_path: Mapped[str | None] = mapped_column(String(512), nullable=True)
+    certificate_path: Mapped[str | None] = mapped_column(String(512), nullable=True)
+    achievement: Mapped[str] = mapped_column(Text, nullable=False, default="")
     position: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
     is_published: Mapped[bool] = mapped_column(Boolean, nullable=False, default=True)
 

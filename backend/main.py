@@ -10,7 +10,6 @@ from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 
 from config import settings
-from middleware.visitors import VisitorMiddleware
 from routes.admin_router import router as admin_router
 from routes.auth_router import router as auth_router
 from routes.cards_router import router as cards_router
@@ -19,6 +18,7 @@ from routes.email_router import router as messages_router
 from routes.partners_router import router as partners_router
 from routes.projects_router import router as projects_router
 from routes.services_router import router as services_router
+from routes.visit_router import router as visit_router
 from services.media import UPLOAD_ROOT, ensure_upload_dirs
 
 logging.basicConfig(level=logging.INFO)
@@ -52,6 +52,14 @@ async def validation_exception_handler(
         content={"detail": exc.errors(), "body": body},
     )
 
+@app.middleware("http")
+async def security_headers(request: Request, call_next):
+    response = await call_next(request)
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    response.headers["X-Frame-Options"] = "DENY"
+    response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
+    return response
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.cors_origins or ["*"],
@@ -59,8 +67,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-app.add_middleware(VisitorMiddleware)
-
 app.include_router(auth_router)
 app.include_router(content_router)
 app.include_router(cards_router)
@@ -69,6 +75,7 @@ app.include_router(projects_router)
 app.include_router(partners_router)
 app.include_router(messages_router)
 app.include_router(admin_router)
+app.include_router(visit_router)
 
 ensure_upload_dirs()
 app.mount(

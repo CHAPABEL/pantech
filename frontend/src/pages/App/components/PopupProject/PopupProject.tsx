@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import styles from "./PopupProject.module.scss";
 import { X } from "lucide-react";
 import { useContent } from "../../../../contexts/ContentContext";
+import { resolveAssetUrl } from "../../../../services/assets";
 
 type servProps = {
   prop: boolean;
@@ -89,14 +90,15 @@ function PopupProject({ setProp, contentKey }: servProps) {
                   </span>
                 ))}
               </div>
+            </div>
               <a
-                href={presentation}
+                href={resolveAssetUrl(presentation)}
                 target="_blank"
+                rel="noreferrer"
                 className={styles.bottom_pres}
               >
                 Презентация продукта
               </a>
-            </div>
           </div>
         </div>
       </div>

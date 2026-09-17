@@ -301,14 +301,6 @@ PROJECTS_SEED: list[dict[str, Any]] = [
 
 PARTNERS_SEED: list[dict[str, Any]] = [
     {
-        "title": "Google",
-        "description": (
-            "Корпоративные облачные решения и интеграция сервисов Google Workspace."
-        ),
-        "image_path": "https://cdn.simpleicons.org/google/4285F4",
-        "position": 0,
-    },
-    {
         "title": "Microsoft",
         "description": (
             "Внедрение платформ Azure и корпоративной экосистемы Microsoft 365."
@@ -333,24 +325,6 @@ PARTNERS_SEED: list[dict[str, Any]] = [
         "description": "Системы управления данными и корпоративные бизнес-приложения.",
         "image_path": "images/partners/oracle.svg",
         "position": 4,
-    },
-    {
-        "title": "SAP",
-        "description": "ERP-интеграции и автоматизация ключевых бизнес-процессов.",
-        "image_path": "https://cdn.simpleicons.org/sap/0FAAFF",
-        "position": 5,
-    },
-    {
-        "title": "Intel",
-        "description": "Аппаратные платформы и оптимизация высоконагруженных систем.",
-        "image_path": "https://cdn.simpleicons.org/intel/0071C5",
-        "position": 6,
-    },
-    {
-        "title": "Samsung",
-        "description": "Технологические партнёрства в области IoT и мобильных решений.",
-        "image_path": "https://cdn.simpleicons.org/samsung/1428A0",
-        "position": 7,
     },
 ]
 
@@ -405,6 +379,13 @@ async def seed() -> None:
             for item in PARTNERS_SEED
             if item.get("image_path", "").startswith("images/partners/")
         }
+        existing_partners = (
+            await session.execute(select(Partner))
+        ).scalars().all()
+        for partner in existing_partners:
+            path = partner.image_path or ""
+            if path.startswith("https://cdn.simpleicons.org"):
+                await session.delete(partner)
         existing_partners = (
             await session.execute(select(Partner))
         ).scalars().all()

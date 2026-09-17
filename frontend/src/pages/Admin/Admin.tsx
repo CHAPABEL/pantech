@@ -7,8 +7,8 @@ import Seo from "../../components/Seo/Seo";
 
 const navItems = [
   { name: "Главная", icon: LayoutDashboard, to: "/a", end: true },
-  { name: "Почта", icon: Mail, to: "/a/mail" },
-  { name: "Контент", icon: Command, to: "/a/content" },
+  { name: "Почта", icon: Mail, to: "/a/mail", end: false },
+  { name: "Контент", icon: Command, to: "/a/content", end: false },
 ];
 
 const Admin = () => {

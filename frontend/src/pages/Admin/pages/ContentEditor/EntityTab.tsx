@@ -14,6 +14,8 @@ type EntityRecord = {
   title: string;
   description: string;
   image_path: string | null;
+  certificate_path?: string | null;
+  achievement?: string;
   position: number;
   is_published: boolean;
   stack?: string[];
@@ -39,6 +41,8 @@ function makeEmpty(kind: EntityKind): EntityRecord {
     title: "",
     description: "",
     image_path: "",
+    certificate_path: "",
+    achievement: "",
     position: 0,
     is_published: true,
   };
@@ -266,6 +270,10 @@ function serialize(record: EntityRecord, kind: EntityKind): Record<string, unkno
     position: Number(record.position) || 0,
     is_published: !!record.is_published,
   };
+  if (kind === "partners") {
+    base.certificate_path = record.certificate_path || null;
+    base.achievement = record.achievement || "";
+  }
   if (kind === "cards") {
     base.stack = record.stack ?? [];
     base.is_clickable = !!record.is_clickable;
@@ -292,7 +300,7 @@ function EntityForm({ value, kind, onField }: FormProps) {
         />
       </label>
       <label className={`${shared.label} ${styles.full}`}>
-        Описание
+        {kind === "partners" ? "Описание партнёра" : "Описание"}
         <textarea
           className={shared.textarea}
           value={value.description}
@@ -304,7 +312,33 @@ function EntityForm({ value, kind, onField }: FormProps) {
         value={value.image_path ?? ""}
         onChange={(path) => onField("image_path", path)}
         category={kind}
+        hint={
+          kind === "partners"
+            ? "Только файл SVG, PNG или WebP. Размер на сайте: 72px / 64 / 56 / 44 по ширине экрана."
+            : undefined
+        }
       />
+      {kind === "partners" && (
+        <>
+          <ImageUpload
+            label="Сертификат (необязательно)"
+            value={value.certificate_path ?? ""}
+            onChange={(path) => onField("certificate_path", path)}
+            category="partners"
+            allowPdf
+            hint="SVG, PNG, WebP или PDF — PDF автоматически превратится в картинку."
+          />
+          <label className={`${shared.label} ${styles.full}`}>
+            Достижение (необязательно)
+            <textarea
+              className={shared.textarea}
+              value={value.achievement ?? ""}
+              onChange={(e) => onField("achievement", e.target.value)}
+              placeholder="Например: авторизованный партнёр с 2024 года, 50+ внедрений"
+            />
+          </label>
+        </>
+      )}
       <label className={shared.label}>
         Позиция
         <input

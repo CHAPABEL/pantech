@@ -16,7 +16,20 @@ type Props = {
   onChange: (path: string) => void;
   category?: "media" | "partners" | "cards" | "services" | "projects";
   label?: string;
+  /** MIME accept для input, например image/png,image/webp,image/svg+xml */
+  accept?: string;
+  hint?: string;
+  /** Разрешить также загрузку PDF (бэкенд сам растеризует первую страницу в PNG) */
+  allowPdf?: boolean;
 };
+
+const DEFAULT_ACCEPT =
+  "image/png,image/jpeg,image/webp,image/gif,image/svg+xml";
+
+const PARTNER_ACCEPT = "image/png,image/webp,image/svg+xml";
+const PARTNER_EXTS = [".png", ".webp", ".svg"];
+const PARTNER_ACCEPT_WITH_PDF = `${PARTNER_ACCEPT},application/pdf`;
+const PARTNER_EXTS_WITH_PDF = [...PARTNER_EXTS, ".pdf"];
 
 function displayName(path: string): string {
   if (!path) return "Не выбрано";
@@ -36,6 +49,9 @@ export default function ImageUpload({
   onChange,
   category = "media",
   label = "Изображение",
+  accept,
+  hint,
+  allowPdf = false,
 }: Props) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [open, setOpen] = useState(false);
@@ -44,6 +60,11 @@ export default function ImageUpload({
   const [error, setError] = useState<string | null>(null);
   const [search, setSearch] = useState("");
   const [library, setLibrary] = useState<ImageAsset[]>([]);
+  const partnerAccept = allowPdf ? PARTNER_ACCEPT_WITH_PDF : PARTNER_ACCEPT;
+  const partnerExts = allowPdf ? PARTNER_EXTS_WITH_PDF : PARTNER_EXTS;
+  const acceptValue =
+    accept ?? (category === "partners" ? partnerAccept : DEFAULT_ACCEPT);
+  const restrictExts = category === "partners" ? partnerExts : null;
 
   const loadLibrary = useCallback(async () => {
     setLoading(true);
@@ -71,16 +92,32 @@ export default function ImageUpload({
 
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase();
-    if (!q) return library;
-    return library.filter(
-      (item) =>
+    return library.filter((item) => {
+      if (restrictExts) {
+        const lower = item.path.toLowerCase();
+        if (!restrictExts.some((ext) => lower.endsWith(ext))) return false;
+      }
+      if (!q) return true;
+      return (
         item.name.toLowerCase().includes(q) ||
-        item.path.toLowerCase().includes(q),
-    );
-  }, [library, search]);
+        item.path.toLowerCase().includes(q)
+      );
+    });
+  }, [library, search, restrictExts]);
 
   const handleFile = async (file: File | undefined) => {
     if (!file) return;
+    if (restrictExts) {
+      const name = file.name.toLowerCase();
+      if (!restrictExts.some((ext) => name.endsWith(ext))) {
+        setError(
+          allowPdf
+            ? "Разрешены только SVG, PNG, WebP или PDF."
+            : "Разрешены только SVG, PNG и WebP.",
+        );
+        return;
+      }
+    }
     setUploading(true);
     setError(null);
     try {
@@ -136,6 +173,7 @@ export default function ImageUpload({
 
         <div className={styles.meta}>
           <span className={styles.fileName}>{displayName(value)}</span>
+          {hint ? <span className={styles.hint}>{hint}</span> : null}
           <div className={styles.actions}>
             <button
               type="button"
@@ -170,7 +208,7 @@ export default function ImageUpload({
       <input
         ref={inputRef}
         type="file"
-        accept="image/png,image/jpeg,image/webp,image/gif,image/svg+xml"
+        accept={acceptValue}
         className={styles.hidden}
         onChange={(e) => void handleFile(e.target.files?.[0])}
       />

@@ -29,6 +29,44 @@ CONTENT_TYPE_EXT: dict[str, str] = {
 
 _SAFE_FILENAME_RE = re.compile(r"[^A-Za-zА-Яа-яЁё0-9_.\- ]+")
 IMAGE_EXTENSIONS = {".png", ".jpg", ".jpeg", ".webp", ".gif", ".svg"}
+PARTNER_IMAGE_EXTENSIONS = {".png", ".webp", ".svg"}
+
+PDF_RENDER_DPI = 200
+MAX_PDF_SIZE = 20 * 1024 * 1024  # 20 MB
+
+
+def _is_pdf(file: UploadFile, content: bytes) -> bool:
+    ct = (file.content_type or "").split(";")[0].strip().lower()
+    if ct == "application/pdf":
+        return True
+    if (file.filename or "").lower().endswith(".pdf"):
+        return True
+    return content[:5] == b"%PDF-"
+
+
+def _render_pdf_first_page(content: bytes) -> bytes:
+    """Растеризует первую страницу PDF в PNG — сертификат должен сразу
+    отображаться как картинка, без отдельного PDF-просмотрщика."""
+    import fitz  # PyMuPDF
+
+    if len(content) > MAX_PDF_SIZE:
+        raise HTTPException(
+            status_code=413, detail="PDF слишком большой. Максимум 20 МБ."
+        )
+    try:
+        doc = fitz.open(stream=content, filetype="pdf")
+        if doc.page_count == 0:
+            raise HTTPException(status_code=400, detail="PDF-файл пустой")
+        page = doc.load_page(0)
+        zoom = PDF_RENDER_DPI / 72
+        pix = page.get_pixmap(matrix=fitz.Matrix(zoom, zoom))
+        return pix.tobytes("png")
+    except HTTPException:
+        raise
+    except Exception as exc:  # noqa: BLE001
+        raise HTTPException(
+            status_code=400, detail=f"Не удалось прочитать PDF: {exc}"
+        ) from None
 
 # Статика из frontend/public (не в uploads)
 STATIC_PUBLIC_IMAGES: tuple[str, ...] = (
@@ -118,14 +156,24 @@ async def save_image(file: UploadFile, *, category: str = "media") -> str:
     content = await file.read()
     if not content:
         raise HTTPException(status_code=400, detail="Файл пустой")
-    if len(content) > MAX_IMAGE_SIZE:
-        raise HTTPException(
-            status_code=413,
-            detail="Файл слишком большой. Максимум 5 МБ.",
-        )
 
-    ext = _resolve_ext(file, content)
-    safe_stem = _sanitize_filename(file.filename or "image")
+    original_name = file.filename or "image"
+    if category == "partners" and _is_pdf(file, content):
+        content = _render_pdf_first_page(content)
+        ext = ".png"
+    else:
+        if len(content) > MAX_IMAGE_SIZE:
+            raise HTTPException(
+                status_code=413,
+                detail="Файл слишком большой. Максимум 5 МБ.",
+            )
+        ext = _resolve_ext(file, content)
+        if category == "partners" and ext not in PARTNER_IMAGE_EXTENSIONS:
+            raise HTTPException(
+                status_code=400,
+                detail="Для партнёров разрешены только SVG, PNG, WebP или PDF (сертификат).",
+            )
+    safe_stem = _sanitize_filename(original_name)
     path = dest_dir / f"{safe_stem}{ext}"
     counter = 1
     while path.exists():

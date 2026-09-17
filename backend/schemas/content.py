@@ -100,13 +100,16 @@ class ProjectUpdate(BaseModel):
 
 
 class PartnerOut(_BaseEntity):
-    pass
+    certificate_path: str | None = None
+    achievement: str = ""
 
 
 class PartnerCreate(BaseModel):
     title: str = Field(..., min_length=1, max_length=255)
     description: str = ""
     image_path: str | None = None
+    certificate_path: str | None = None
+    achievement: str = ""
     position: int = 0
     is_published: bool = True
 
@@ -115,6 +118,8 @@ class PartnerUpdate(BaseModel):
     title: str | None = Field(default=None, max_length=255)
     description: str | None = None
     image_path: str | None = None
+    certificate_path: str | None = None
+    achievement: str | None = None
     position: int | None = None
     is_published: bool | None = None
 

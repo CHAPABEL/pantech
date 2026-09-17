@@ -3,6 +3,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useApiList } from "../../../../hooks/useApiList";
 import type { PartnerItem } from "../../../../services/types";
 import { resolveAssetUrl } from "../../../../services/assets";
+import type { PartnerPopupData } from "./PopupPartners/PopupPartners";
 import styles from "./Partners.module.scss";
 
 type SlideDirection = "next" | "prev" | null;
@@ -12,6 +13,8 @@ type PartnerView = {
   name: string;
   description: string;
   logo: string;
+  certificate: string;
+  achievement: string;
 };
 
 const FALLBACK_RAW: PartnerItem[] = [
@@ -94,6 +97,8 @@ function toView(items: PartnerItem[]): PartnerView[] {
     name: p.title,
     description: p.description,
     logo: p.image_path || "",
+    certificate: p.certificate_path || "",
+    achievement: p.achievement || "",
   }));
 }
 
@@ -107,7 +112,11 @@ function getVisible(partners: PartnerView[], active: number, total: number) {
   ];
 }
 
-function Partners() {
+type PartnersProps = {
+  onSelect: (partner: PartnerPopupData) => void;
+};
+
+function Partners({ onSelect }: PartnersProps) {
   const apiItems = useApiList<PartnerItem>("/partners", FALLBACK_RAW);
   const partners = useMemo(() => toView(apiItems), [apiItems]);
 
@@ -142,6 +151,19 @@ function Partners() {
     if (total === 0) return;
     goTo((safeActive + 1) % total, "next");
   }, [safeActive, goTo, total]);
+
+  const openPopup = useCallback(
+    (partner: PartnerView) => {
+      onSelect({
+        name: partner.name,
+        description: partner.description,
+        logo: partner.logo,
+        certificate: partner.certificate,
+        achievement: partner.achievement,
+      });
+    },
+    [onSelect],
+  );
 
   const cardAnimClass = (slot: "left" | "center" | "right") => {
     if (!slide) return "";
@@ -198,16 +220,18 @@ function Partners() {
                 onClick={() => {
                   if (slot === "left") goTo(index, "prev");
                   else if (slot === "right") goTo(index, "next");
+                  else if (slot === "center") openPopup(partner);
                 }}
                 onKeyDown={(e) => {
                   if (e.key === "Enter" || e.key === " ") {
                     e.preventDefault();
                     if (slot === "left") goTo(index, "prev");
                     else if (slot === "right") goTo(index, "next");
+                    else if (slot === "center") openPopup(partner);
                   }
                 }}
                 role="button"
-                tabIndex={slot === "center" ? -1 : 0}
+                tabIndex={0}
                 aria-current={slot === "center" ? "true" : undefined}
               >
                 {partner.logo ? (

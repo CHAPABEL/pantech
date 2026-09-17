@@ -2,6 +2,7 @@ import styles from "./Services.module.scss";
 import { useApiList } from "../../../../hooks/useApiList";
 import type { ServiceItem } from "../../../../services/types";
 import { resolveAssetUrl } from "../../../../services/assets";
+import EntityText from "../../../../components/EntityText/EntityText";
 
 const FALLBACK: ServiceItem[] = [
   {
@@ -64,10 +65,12 @@ function Services({ setSelectedService }: servProps) {
               )}
             </div>
             <div className={styles.leftSide_textCon}>
-              <span className={styles.textCon_mainText}>{item.title}</span>
-              <span className={styles.textCon_discription}>
-                {item.description}
-              </span>
+              <EntityText
+                title={item.title}
+                description={item.description}
+                titleClassName={styles.textCon_mainText}
+                descriptionClassName={styles.textCon_discription}
+              />
             </div>
           </div>
           <div className={styles.container_buttonCon}>

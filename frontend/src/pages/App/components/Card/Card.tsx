@@ -3,6 +3,7 @@ import { useRef } from "react";
 import { useApiList } from "../../../../hooks/useApiList";
 import type { CardItem } from "../../../../services/types";
 import { resolveAssetUrl } from "../../../../services/assets";
+import EntityText from "../../../../components/EntityText/EntityText";
 
 const FALLBACK: CardItem[] = [
   {
@@ -26,7 +27,7 @@ const FALLBACK: CardItem[] = [
     id: -2,
     title: "Breolin",
     description: "Разработка сервиса знакомств Breolin, скоро будет анонс!",
-    image_path: "images/Brialin3.svg",
+    image_path: "images/Brialin.png",
     stack: [],
     is_clickable: false,
     popup_content_key: null,
@@ -35,7 +36,7 @@ const FALLBACK: CardItem[] = [
   },
 ];
 
-const BREOLIN_IMG = "images/Brialin3.svg";
+const BREOLIN_IMG = "images/Brialin.png";
 
 type CardProps = {
   onOpenProject?: (contentKey: string | null) => void;
@@ -71,8 +72,12 @@ function Card({ onOpenProject }: CardProps) {
                 />
               </div>
               <div className={styles.cardCon_textCon}>
-                <span className={styles.textCon_mainText}>{item.title}</span>
-                <span className={styles.textCon_disc}>{item.description}</span>
+                <EntityText
+                  title={item.title}
+                  description={item.description}
+                  titleClassName={styles.textCon_mainText}
+                  descriptionClassName={styles.textCon_disc}
+                />
                 {item.stack.length > 0 ? (
                   <div className={styles.textCon_stack}>
                     <span className={styles.stack_mnText}>

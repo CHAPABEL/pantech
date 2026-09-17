@@ -2,6 +2,7 @@ import styles from "./Projects.module.scss";
 import { useApiList } from "../../../../hooks/useApiList";
 import type { ProjectItem } from "../../../../services/types";
 import { resolveAssetUrl } from "../../../../services/assets";
+import EntityText from "../../../../components/EntityText/EntityText";
 
 const FALLBACK: ProjectItem[] = [
   {
@@ -53,10 +54,12 @@ function Projects() {
           </div>
           <div className={styles.card_cardInfo}>
             <div className={styles.cardInfo_textCon}>
-              <span className={styles.textCon_mainText}>{item.title}</span>
-              <span className={styles.textCon_discription}>
-                {item.description}
-              </span>
+              <EntityText
+                title={item.title}
+                description={item.description}
+                titleClassName={styles.textCon_mainText}
+                descriptionClassName={styles.textCon_discription}
+              />
             </div>
             <div className={styles.cardInfo_bottomSide}>
               <div className={styles.bottomSide_stack}></div>

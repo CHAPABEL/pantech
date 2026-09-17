@@ -6,6 +6,7 @@ from fastapi import APIRouter, HTTPException, Request, Response, status
 from pydantic import BaseModel, Field
 
 from config import settings
+from services.rate_limit import enforce_rate_limit
 from services.security import (
     create_access_token,
     clear_auth_cookie,
@@ -27,7 +28,8 @@ class MeResponse(BaseModel):
 
 
 @router.post("/login", response_model=MeResponse)
-async def login(payload: LoginPayload, response: Response) -> MeResponse:
+async def login(payload: LoginPayload, request: Request, response: Response) -> MeResponse:
+    enforce_rate_limit(request, bucket="login", limit=5, window_seconds=300)
     if not verify_admin_credentials(payload.login, payload.password):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,

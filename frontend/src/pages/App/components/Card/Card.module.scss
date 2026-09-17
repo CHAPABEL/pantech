@@ -85,13 +85,11 @@
 
         .leftSide_brialin {
           width: 130px;
-          left: 3px;
-          height: 90%;
           position: absolute;
         }
         .leftSide_image {
           max-width: 240px;
-          left: -120px;
+          left: -100px;
           position: absolute;
         }
       }
@@ -379,4 +377,14 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+@keyframes slideAnimation {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+  
 }

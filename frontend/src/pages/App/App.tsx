@@ -7,16 +7,26 @@ import Tech from "./components/Tech/Tech";
 import Partners from "./components/Partners/Partners";
 import PopupSend from "./components/PopupSend/PopupSend";
 import PopupProject from "./components/PopupProject/PopupProject";
-import { useState } from "react";
+import PopupPartners, {
+  type PartnerPopupData,
+} from "./components/Partners/PopupPartners/PopupPartners";
+import { useEffect, useState } from "react";
 import { useContent } from "../../contexts/ContentContext";
 import Seo from "../../components/Seo/Seo";
+import { api } from "../../services/api";
 
 function App() {
   const [state, setState] = useState(false);
   const [projectPopup, setProjectPopup] = useState(false);
   const [selectedServ, setSelectedServ] = useState<string>("");
+  const [selectedPartner, setSelectedPartner] =
+    useState<PartnerPopupData | null>(null);
   const [popupKey, setPopupKey] = useState<string | null>(null);
   const { t } = useContent();
+
+  useEffect(() => {
+    void api.post("/visit").catch(() => {});
+  }, []);
 
   const handleSelectService = (service: string) => {
     setSelectedServ(service);
@@ -105,7 +115,7 @@ function App() {
             <span className={styles.partners_maintext}>
               {t("section.partners.title", "Партнеры")}
             </span>
-            <Partners />
+            <Partners onSelect={setSelectedPartner} />
           </div>
         </section>
         {projectPopup && popupKey && (
@@ -120,6 +130,12 @@ function App() {
             selectedService={selectedServ}
             prop={state}
             setProp={setState}
+          />
+        )}
+        {selectedPartner && (
+          <PopupPartners
+            partner={selectedPartner}
+            onClose={() => setSelectedPartner(null)}
           />
         )}
       </main>

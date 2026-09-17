@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import smtplib
 from email.message import EmailMessage
+from html import escape
 
 from config import settings
 
@@ -28,11 +29,11 @@ def build_message(
 <html>
   <body style="font-family: Arial, sans-serif;">
     <h2 style="color:#3076d8;">Новое сообщение с сайта Pantech</h2>
-    <p><strong>Пользователь:</strong> {name}</p>
-    <p><strong>Направление:</strong> {direction or 'не указано'}</p>
-    <p><strong>Email:</strong> {email}</p>
-    <p><strong>Телефон:</strong> {phone}</p>
-    <p><strong>О проекте:</strong><br>{about}</p>
+    <p><strong>Пользователь:</strong> {escape(name)}</p>
+    <p><strong>Направление:</strong> {escape(direction) if direction else 'не указано'}</p>
+    <p><strong>Email:</strong> {escape(email)}</p>
+    <p><strong>Телефон:</strong> {escape(phone)}</p>
+    <p><strong>О проекте:</strong><br>{escape(about)}</p>
   </body>
 </html>
 """

@@ -95,12 +95,8 @@
           color: #292929;
         }
       }
-      .bottom {
-        display: flex;
-        justify-content: space-between;
-        align-items: end;
 
-        .bottom_pres {
+      .bottom_pres {
           font-size: 20px;
           color: #3075d8;
 
@@ -108,6 +104,13 @@
             text-decoration: underline;
           }
         }
+
+      .bottom {
+        display: flex;
+        justify-content: space-between;
+        align-items: end;
+
+        
 
         .bottom_technologies {
           display: flex;
