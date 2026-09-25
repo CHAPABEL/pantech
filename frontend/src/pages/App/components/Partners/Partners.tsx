@@ -13,7 +13,7 @@ type PartnerView = {
   name: string;
   description: string;
   logo: string;
-  certificate: string;
+  certificates: string[];
   achievement: string;
 };
 
@@ -97,7 +97,7 @@ function toView(items: PartnerItem[]): PartnerView[] {
     name: p.title,
     description: p.description,
     logo: p.image_path || "",
-    certificate: p.certificate_path || "",
+    certificates: p.certificates || [],
     achievement: p.achievement || "",
   }));
 }
@@ -158,7 +158,7 @@ function Partners({ onSelect }: PartnersProps) {
         name: partner.name,
         description: partner.description,
         logo: partner.logo,
-        certificate: partner.certificate,
+        certificates: partner.certificates,
         achievement: partner.achievement,
       });
     },

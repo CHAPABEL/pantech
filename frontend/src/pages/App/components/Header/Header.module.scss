@@ -142,101 +142,46 @@
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 900px) {
   .header {
-    width: 100%;
-    border-radius: 0;
-    flex-direction: row;
-    flex-wrap: wrap;
-    padding: 12px 16px;
-    gap: 12px;
-    align-items: center;
-    justify-content: center;
-
-    .header_leftSide {
-      width: 100%;
-      gap: 12px;
-      justify-content: center;
-
-      .leftSide_Logo {
-        display: block;
-        width: 36px;
-      }
-
-      .leftSide_buttonCon {
-        width: auto;
-        flex: 1;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 8px 12px;
-
-        .buttonCon_link {
-          font-size: 13px;
-        }
-      }
-    }
-
-    .header_rightSide {
-      width: 100%;
-      justify-content: center;
-      gap: 12px;
-
-      .rightSide_LinkCon {
-        display: flex;
-
-        .Linkcon_adress {
-          font-size: 13px;
-        }
-      }
-
-      .rightSide_Contact {
-        display: block;
-        font-size: 14px;
-        padding: 8px 14px;
-      }
-    }
+    display: none;
   }
 }
 
-@media (max-width: 430px) {
+@media (min-width: 901px) and (max-width: 1180px) {
   .header {
-    padding: 10px 12px;
+    padding: 12px 28px;
 
     .header_leftSide {
-      .leftSide_Logo {
-        display: none;
-      }
+      gap: 20px;
+      width: auto;
+      flex: 1;
+      min-width: 0;
 
       .leftSide_buttonCon {
-        width: 100%;
-        justify-content: space-between;
-        gap: 4px;
+        flex: 1;
+        width: auto;
+        gap: 14px;
+        justify-content: flex-start;
 
         .buttonCon_link {
-          font-size: 11px;
-
-          &::after {
-            left: -4px;
-            right: -4px;
-          }
+          font-size: 15px;
+          white-space: nowrap;
         }
       }
     }
 
     .header_rightSide {
-      flex-direction: column;
-      align-items: center;
+      gap: 14px;
+      flex-shrink: 0;
 
-      .rightSide_LinkCon {
-        .Linkcon_adress {
-          font-size: 12px;
-        }
+      .rightSide_LinkCon .Linkcon_adress {
+        font-size: 13px;
       }
 
       .rightSide_Contact {
-        width: 100%;
-        text-align: center;
-        font-size: 13px;
+        font-size: 14px;
+        padding: 8px 14px;
       }
     }
   }

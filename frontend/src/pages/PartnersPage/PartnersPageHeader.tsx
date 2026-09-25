@@ -1,4 +1,5 @@
 import styles from "./PartnersPageHeader.module.scss";
+import MobileMenu from "../../components/MobileMenu/MobileMenu";
 
 type Props = {
   email?: string;
@@ -6,6 +7,7 @@ type Props = {
 
 function PartnersPageHeader({ email = "info@pan-tech.ru" }: Props) {
   return (
+    <>
     <header className={styles.header}>
       <div className={styles.left}>
         <a href="/" className={styles.logoLink}>
@@ -29,6 +31,17 @@ function PartnersPageHeader({ email = "info@pan-tech.ru" }: Props) {
         </a>
       </div>
     </header>
+    <MobileMenu
+      links={[
+        { label: "Главная", href: "/" },
+        { label: "Партнёры", href: "/partners" },
+      ]}
+      email={email}
+      contactLabel="Связаться с нами"
+      contactHref="/#services"
+      activeHref="/partners"
+    />
+    </>
   );
 }
 

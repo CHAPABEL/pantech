@@ -251,3 +251,60 @@
     }
   }
 }
+
+@media (min-width: 601px) and (max-width: 768px) {
+  .services {
+    align-items: stretch;
+    gap: 24px;
+
+    .services_container {
+      width: 100%;
+      padding: 20px;
+      gap: 18px;
+
+      .container_leftSide {
+        flex-direction: row;
+        align-items: center;
+        gap: 24px;
+
+        .leftSide_imageCon {
+          width: 180px;
+          flex-shrink: 0;
+          padding: 12px;
+
+          .imageCon_image {
+            width: 100%;
+            height: auto;
+          }
+        }
+
+        .leftSide_textCon {
+          flex: 1;
+          width: auto;
+          gap: 10px;
+
+          .textCon_mainText {
+            font-size: 30px;
+            text-align: left;
+          }
+
+          .textCon_discription {
+            font-size: 17px;
+            text-align: left;
+          }
+        }
+      }
+
+      .container_buttonCon {
+        align-items: center;
+        justify-content: flex-end;
+
+        .buttonCon_button {
+          width: auto;
+          font-size: 16px;
+          padding: 10px 24px;
+        }
+      }
+    }
+  }
+}

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { Plus, Trash2 } from "lucide-react";
+import { Plus, Trash2, X } from "lucide-react";
 import shared from "../admin-shared.module.scss";
 import styles from "./ContentEditor.module.scss";
 import ImageUpload from "../../components/ImageUpload/ImageUpload";
@@ -14,7 +14,8 @@ type EntityRecord = {
   title: string;
   description: string;
   image_path: string | null;
-  certificate_path?: string | null;
+  certificates?: string[];
+  full_description?: string;
   achievement?: string;
   position: number;
   is_published: boolean;
@@ -41,7 +42,8 @@ function makeEmpty(kind: EntityKind): EntityRecord {
     title: "",
     description: "",
     image_path: "",
-    certificate_path: "",
+    certificates: [],
+    full_description: "",
     achievement: "",
     position: 0,
     is_published: true,
@@ -271,7 +273,8 @@ function serialize(record: EntityRecord, kind: EntityKind): Record<string, unkno
     is_published: !!record.is_published,
   };
   if (kind === "partners") {
-    base.certificate_path = record.certificate_path || null;
+    base.certificates = record.certificates ?? [];
+    base.full_description = record.full_description || "";
     base.achievement = record.achievement || "";
   }
   if (kind === "cards") {
@@ -320,14 +323,58 @@ function EntityForm({ value, kind, onField }: FormProps) {
       />
       {kind === "partners" && (
         <>
-          <ImageUpload
-            label="Сертификат (необязательно)"
-            value={value.certificate_path ?? ""}
-            onChange={(path) => onField("certificate_path", path)}
-            category="partners"
-            allowPdf
-            hint="SVG, PNG, WebP или PDF — PDF автоматически превратится в картинку."
-          />
+          <div className={`${shared.label} ${styles.full}`}>
+            Сертификаты (можно добавить сколько угодно)
+            {(value.certificates ?? []).length > 0 && (
+              <div className={styles.certList}>
+                {(value.certificates ?? []).map((cert, idx) => (
+                  <div key={`${cert}-${idx}`} className={styles.certItem}>
+                    <img
+                      src={resolveAssetUrl(cert)}
+                      alt=""
+                      className={styles.certThumb}
+                    />
+                    <button
+                      type="button"
+                      className={styles.certRemove}
+                      aria-label="Удалить сертификат"
+                      onClick={() =>
+                        onField(
+                          "certificates",
+                          (value.certificates ?? []).filter(
+                            (_, i) => i !== idx,
+                          ),
+                        )
+                      }
+                    >
+                      <X size={12} />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+            <ImageUpload
+              label="Добавить сертификат"
+              value=""
+              onChange={(path) => {
+                if (!path) return;
+                onField("certificates", [...(value.certificates ?? []), path]);
+              }}
+              category="partners"
+              allowPdf
+              hint="SVG, PNG, WebP или PDF — PDF автоматически превратится в картинку."
+            />
+          </div>
+          <label className={`${shared.label} ${styles.full}`}>
+            Подробное описание (для страницы партнёра, необязательно)
+            <textarea
+              className={shared.textarea}
+              rows={8}
+              value={value.full_description ?? ""}
+              onChange={(e) => onField("full_description", e.target.value)}
+              placeholder="Развёрнутый текст о партнёре. Пустая строка между абзацами создаёт новый абзац."
+            />
+          </label>
           <label className={`${shared.label} ${styles.full}`}>
             Достижение (необязательно)
             <textarea

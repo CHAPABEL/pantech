@@ -14,6 +14,7 @@ import { useEffect, useState } from "react";
 import { useContent } from "../../contexts/ContentContext";
 import Seo from "../../components/Seo/Seo";
 import { api } from "../../services/api";
+import Reveal from "../../components/Reveal/Reveal";
 
 function App() {
   const [state, setState] = useState(false);
@@ -87,36 +88,36 @@ function App() {
           />
         </section>
         <section className={styles.main_content}>
-          <div id="products" className={styles.main_productCards}>
+          <Reveal id="products" className={styles.main_productCards}>
             <span className={styles.productCards_maintext}>
               {t("section.products.title", "Наши продукты")}
             </span>
             <Card onOpenProject={handleOpenProject} />
-          </div>
-          <div id="services" className={styles.main_services}>
+          </Reveal>
+          <Reveal id="services" className={styles.main_services}>
             <span className={styles.services_maintext}>
               {t("section.services.title", "Наши услуги")}
             </span>
             <Services setSelectedService={handleSelectService} />
-          </div>
-          <div id="projects" className={styles.main_projects}>
+          </Reveal>
+          <Reveal id="projects" className={styles.main_projects}>
             <span className={styles.projects_maintext}>
               {t("section.projects.title", "Наши проекты")}
             </span>
             <Projects />
-          </div>
-          <div id="tech" className={styles.main_tech}>
+          </Reveal>
+          <Reveal id="tech" className={styles.main_tech}>
             <span className={styles.tech_maintext}>
               {t("section.tech.title", "Технологии")}
             </span>
             <Tech />
-          </div>
-          <div id="partners" className={styles.main_partners}>
+          </Reveal>
+          <Reveal id="partners" className={styles.main_partners}>
             <span className={styles.partners_maintext}>
               {t("section.partners.title", "Партнеры")}
             </span>
             <Partners onSelect={setSelectedPartner} />
-          </div>
+          </Reveal>
         </section>
         {projectPopup && popupKey && (
           <PopupProject

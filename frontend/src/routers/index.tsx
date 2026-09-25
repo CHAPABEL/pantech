@@ -7,6 +7,7 @@ import Mail from "../pages/Admin/pages/Mail/Mail";
 import ContentEditor from "../pages/Admin/pages/ContentEditor/ContentEditor";
 import ProtectedRoute from "../components/ProtectedRoute";
 import PartnersPage from "../pages/PartnersPage/PartnersPage";
+import PartnerPage from "../pages/PartnerPage/PartnerPage";
 
 const router = createBrowserRouter([
   {
@@ -16,6 +17,10 @@ const router = createBrowserRouter([
   {
     path: "/partners",
     element: <PartnersPage />,
+  },
+  {
+    path: "/partners/:id",
+    element: <PartnerPage />,
   },
   {
     path: "/in",

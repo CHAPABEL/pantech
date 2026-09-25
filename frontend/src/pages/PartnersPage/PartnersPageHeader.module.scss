@@ -118,3 +118,31 @@
     justify-content: space-between;
   }
 }
+
+@media (max-width: 900px) {
+  .header {
+    display: none;
+  }
+}
+
+@media (min-width: 901px) and (max-width: 1100px) {
+  .header {
+    padding: 12px 28px;
+  }
+
+  .left {
+    gap: 24px;
+  }
+
+  .nav {
+    gap: 18px;
+  }
+
+  .right {
+    gap: 14px;
+  }
+
+  .email {
+    font-size: 14px;
+  }
+}

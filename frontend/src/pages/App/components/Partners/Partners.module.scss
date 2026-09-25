@@ -637,3 +637,128 @@
     }
   }
 }
+/*
+============================================================
+  MOBILE — одна карточка в слайдере
+============================================================
+*/
+
+@keyframes cardMobileNext {
+  from {
+    transform: translate3d(36px, 0, 0);
+    opacity: 0;
+  }
+
+  to {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+
+@keyframes cardMobilePrev {
+  from {
+    transform: translate3d(-36px, 0, 0);
+    opacity: 0;
+  }
+
+  to {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+
+@media (max-width: 640px) {
+  .partners {
+    padding: 20px 12px 24px;
+    gap: 14px;
+
+    .slider {
+      gap: 8px;
+    }
+
+    .navBtn {
+      display: flex;
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+
+      svg {
+        width: 20px;
+        height: 20px;
+      }
+    }
+
+    .viewport {
+      padding: 6px 2px;
+    }
+
+    .track {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 0;
+      max-width: 100%;
+    }
+
+    .cardSide {
+      display: none;
+    }
+
+    .card {
+      min-height: 280px;
+      padding: 24px 16px;
+      gap: 12px;
+      border-radius: 18px;
+      overflow: hidden;
+    }
+
+    .cardCenter {
+      transform: none;
+      box-shadow: none;
+      border-color: #bfd9ff;
+    }
+
+    .cardToCenter,
+    .cardFromRight {
+      animation: cardMobileNext 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    .cardToCenterRev,
+    .cardFromLeft {
+      animation: cardMobilePrev 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    .logo {
+      width: 64px;
+      height: 64px;
+    }
+
+    .cardCenter .name {
+      font-size: 22px;
+      overflow-wrap: anywhere;
+    }
+
+    .cardCenter .description {
+      font-size: 15px;
+      line-height: 1.45;
+      overflow-wrap: anywhere;
+    }
+  }
+}
+
+@media (max-width: 360px) {
+  .partners {
+    padding: 16px 8px 20px;
+
+    .navBtn {
+      width: 32px;
+      height: 32px;
+    }
+
+    .cardCenter .name {
+      font-size: 20px;
+    }
+
+    .cardCenter .description {
+      font-size: 14px;
+    }
+  }
+}

@@ -1,0 +1,165 @@
+body {
+  background: #ebf0f8;
+}
+
+.page {
+  min-height: 100vh;
+  background: #ebf0f8;
+  padding-bottom: 80px;
+}
+
+.main {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 32px 24px 0;
+}
+
+.breadcrumbs {
+  @include row;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 14px;
+  color: #6b7280;
+  margin-bottom: 28px;
+}
+
+.breadcrumbLink {
+  color: #3076d8;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.breadcrumbSep {
+  color: #99a2ad;
+}
+
+.notFound {
+  text-align: center;
+  padding: 80px 24px;
+  color: #6b7280;
+  font-size: 18px;
+}
+
+.profile {
+  @include column;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.logo {
+  max-width: 220px;
+  max-height: 96px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+.logoPlaceholder {
+  color: $button-color;
+  opacity: 0.5;
+}
+
+.title {
+  @include maintext;
+  font-size: 36px;
+  color: $button-color;
+  margin: 0;
+}
+
+.description {
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.55;
+  color: #444650;
+}
+
+.fullDescription {
+  @include column;
+  gap: 14px;
+  width: 100%;
+  margin-top: 8px;
+}
+
+.sectionTitle {
+  @include maintext;
+  font-size: 24px;
+  color: #292929;
+  margin: 0;
+}
+
+.paragraph {
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.7;
+  color: #444650;
+}
+
+.achievement {
+  @include column;
+  gap: 12px;
+  width: 100%;
+
+  padding: 22px 26px;
+  background: $card-bg;
+  border-radius: 14px;
+  border: 1px solid #dbe8fc;
+}
+
+.achievementLabel {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  font-size: 18px;
+  font-weight: 600;
+  color: $button-color;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.achievementText {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 500;
+  color: $text-color;
+  line-height: 1.5;
+}
+
+.certificatesSection {
+  @include column;
+  gap: 20px;
+  margin-top: 56px;
+}
+
+.certificatesTitle {
+  @include maintext;
+  font-size: 26px;
+  color: #292929;
+  margin: 0;
+}
+
+@media (max-width: 640px) {
+  .main {
+    padding: 24px 20px 0;
+  }
+
+  .title {
+    font-size: 28px;
+  }
+
+  .description {
+    font-size: 16px;
+  }
+
+  .certificatesSection {
+    margin-top: 40px;
+  }
+}
+
+@media (max-width: 900px) {
+  .main {
+    padding-top: 76px;
+  }
+}

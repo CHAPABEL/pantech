@@ -1,5 +1,6 @@
 import styles from "./Header.module.scss";
 import { useContent } from "../../../../contexts/ContentContext";
+import MobileMenu from "../../../../components/MobileMenu/MobileMenu";
 
 type headProp = {
   setSelectedService: (service: string) => void;
@@ -8,7 +9,9 @@ type headProp = {
 function Header({ setSelectedService }: headProp) {
   const { t } = useContent();
   const email = t("header.email", "info@pan-tech.ru");
+  const contactLabel = t("header.contact_btn", "Связаться с нами");
   return (
+    <>
     <header className={styles.header}>
       <div className={styles.header_leftSide}>
         <a href="/">
@@ -36,6 +39,9 @@ function Header({ setSelectedService }: headProp) {
           <a href="#tech" className={styles.buttonCon_link}>
             Технологии
           </a>
+          <a href="./partners" className={styles.buttonCon_link}>
+            Партнеры
+          </a>
         </div>
       </div>
       <div className={styles.header_rightSide}>
@@ -48,10 +54,24 @@ function Header({ setSelectedService }: headProp) {
           className={styles.rightSide_Contact}
           onClick={() => setSelectedService("Не указано")}
         >
-          {t("header.contact_btn", "Связаться с нами")}
+          {contactLabel}
         </button>
       </div>
     </header>
+    <MobileMenu
+      links={[
+        { label: "О нас", href: "#" },
+        { label: "Продукты", href: "#products" },
+        { label: "Услуги", href: "#services" },
+        { label: "Проекты", href: "#projects" },
+        { label: "Технологии", href: "#tech" },
+        { label: "Партнеры", href: "/partners" },
+      ]}
+      email={email}
+      contactLabel={contactLabel}
+      onContact={() => setSelectedService("Не указано")}
+    />
+    </>
   );
 }
 

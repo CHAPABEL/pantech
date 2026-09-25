@@ -189,3 +189,35 @@
     }
   }
 }
+
+@media (min-width: 601px) and (max-width: 1024px) {
+  .projects_container {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: stretch;
+    gap: 20px;
+    height: auto;
+
+    .container_card {
+      width: 100%;
+      height: auto;
+
+      .card_topSide {
+        height: 220px;
+      }
+
+      &:last-child:nth-child(odd) {
+        grid-column: 1 / -1;
+      }
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .projects_container {
+    .container_card {
+      width: 100%;
+      height: auto;
+    }
+  }
+}
