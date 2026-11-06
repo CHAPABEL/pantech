@@ -99,8 +99,12 @@ class ProjectUpdate(BaseModel):
     is_published: bool | None = None
 
 
+PARTNER_SHORT_DESCRIPTION_MAX = 140
+
+
 class PartnerOut(_BaseEntity):
     certificates: list[str] = Field(default_factory=list)
+    short_description: str = ""
     full_description: str = ""
     achievement: str = ""
 
@@ -110,6 +114,7 @@ class PartnerCreate(BaseModel):
     description: str = ""
     image_path: str | None = None
     certificates: list[str] = Field(default_factory=list)
+    short_description: str = Field(default="", max_length=PARTNER_SHORT_DESCRIPTION_MAX)
     full_description: str = ""
     achievement: str = ""
     position: int = 0
@@ -121,6 +126,7 @@ class PartnerUpdate(BaseModel):
     description: str | None = None
     image_path: str | None = None
     certificates: list[str] | None = None
+    short_description: str | None = Field(default=None, max_length=PARTNER_SHORT_DESCRIPTION_MAX)
     full_description: str | None = None
     achievement: str | None = None
     position: int | None = None

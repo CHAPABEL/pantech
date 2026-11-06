@@ -3,6 +3,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useApiList } from "../../../../hooks/useApiList";
 import type { PartnerItem } from "../../../../services/types";
 import { resolveAssetUrl } from "../../../../services/assets";
+import { PARTNER_SHORT_MAX, truncate } from "../../../../services/text";
 import type { PartnerPopupData } from "./PopupPartners/PopupPartners";
 import styles from "./Partners.module.scss";
 
@@ -12,6 +13,7 @@ type PartnerView = {
   id: number;
   name: string;
   description: string;
+  shortDescription: string;
   logo: string;
   certificates: string[];
   achievement: string;
@@ -96,6 +98,10 @@ function toView(items: PartnerItem[]): PartnerView[] {
     id: p.id,
     name: p.title,
     description: p.description,
+    shortDescription: truncate(
+      p.short_description || p.description,
+      PARTNER_SHORT_MAX,
+    ),
     logo: p.image_path || "",
     certificates: p.certificates || [],
     achievement: p.achievement || "",
@@ -244,7 +250,7 @@ function Partners({ onSelect }: PartnersProps) {
                   />
                 ) : null}
                 <h3 className={styles.name}>{partner.name}</h3>
-                <p className={styles.description}>{partner.description}</p>
+                <p className={styles.description}>{partner.shortDescription}</p>
               </article>
             ))}
           </div>

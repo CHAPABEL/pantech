@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Seo from "../../components/Seo/Seo";
 import { useApiList } from "../../hooks/useApiList";
 import { resolveAssetUrl } from "../../services/assets";
+import { PARTNER_SHORT_MAX, truncate } from "../../services/text";
 import type { PartnerItem } from "../../services/types";
 import PartnersPageHeader from "./PartnersPageHeader";
 import { FALLBACK_PARTNERS, sortPartners } from "./partnersUtils";
@@ -152,8 +153,13 @@ function PartnersPage() {
                       )}
                     </div>
                     <h2 className={styles.cardTitle}>{partner.title}</h2>
-                    {partner.description ? (
-                      <p className={styles.cardDesc}>{partner.description}</p>
+                    {partner.short_description || partner.description ? (
+                      <p className={styles.cardDesc}>
+                        {truncate(
+                          partner.short_description || partner.description,
+                          PARTNER_SHORT_MAX,
+                        )}
+                      </p>
                     ) : null}
                   </article>
                 );

@@ -6,8 +6,11 @@ import ImageUpload from "../../components/ImageUpload/ImageUpload";
 import { useConfirmDialog } from "../../components/ConfirmDialog/useConfirmDialog";
 import { api, ApiError } from "../../../../services/api";
 import { resolveAssetUrl } from "../../../../services/assets";
+import { PARTNER_SHORT_MAX } from "../../../../services/text";
 
 type EntityKind = "cards" | "services" | "projects" | "partners";
+
+const SHORT_DESCRIPTION_MAX = PARTNER_SHORT_MAX;
 
 type EntityRecord = {
   id: number;
@@ -15,6 +18,7 @@ type EntityRecord = {
   description: string;
   image_path: string | null;
   certificates?: string[];
+  short_description?: string;
   full_description?: string;
   achievement?: string;
   position: number;
@@ -43,6 +47,7 @@ function makeEmpty(kind: EntityKind): EntityRecord {
     description: "",
     image_path: "",
     certificates: [],
+    short_description: "",
     full_description: "",
     achievement: "",
     position: 0,
@@ -274,6 +279,10 @@ function serialize(record: EntityRecord, kind: EntityKind): Record<string, unkno
   };
   if (kind === "partners") {
     base.certificates = record.certificates ?? [];
+    base.short_description = (record.short_description || "").slice(
+      0,
+      SHORT_DESCRIPTION_MAX,
+    );
     base.full_description = record.full_description || "";
     base.achievement = record.achievement || "";
   }
@@ -303,13 +312,36 @@ function EntityForm({ value, kind, onField }: FormProps) {
         />
       </label>
       <label className={`${shared.label} ${styles.full}`}>
-        {kind === "partners" ? "Описание партнёра" : "Описание"}
+        {kind === "partners"
+          ? "Описание партнёра (попап и страница партнёра)"
+          : "Описание"}
         <textarea
           className={shared.textarea}
           value={value.description}
           onChange={(e) => onField("description", e.target.value)}
         />
       </label>
+      {kind === "partners" && (
+        <label className={`${shared.label} ${styles.full}`}>
+          Короткое описание для карточек (до {SHORT_DESCRIPTION_MAX} символов)
+          <textarea
+            className={shared.textarea}
+            rows={3}
+            maxLength={SHORT_DESCRIPTION_MAX}
+            value={value.short_description ?? ""}
+            onChange={(e) =>
+              onField(
+                "short_description",
+                e.target.value.slice(0, SHORT_DESCRIPTION_MAX),
+              )
+            }
+            placeholder="Одна-две строки: чем занимается партнёр. Если пусто — на карточке покажется начало полного описания."
+          />
+          <span className={shared.subtitle}>
+            {(value.short_description ?? "").length} / {SHORT_DESCRIPTION_MAX}
+          </span>
+        </label>
+      )}
       <ImageUpload
         label={kind === "partners" ? "Логотип" : "Картинка"}
         value={value.image_path ?? ""}

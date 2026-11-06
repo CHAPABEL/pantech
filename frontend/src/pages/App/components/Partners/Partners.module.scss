@@ -218,6 +218,8 @@
   .name {
     margin: 0;
 
+    overflow-wrap: anywhere;
+
     font-family: "Montserrat", sans-serif;
 
     font-size: 25px;
@@ -230,6 +232,8 @@
 
   .description {
     margin: 0;
+
+    overflow-wrap: anywhere;
 
     font-family: "Montserrat", sans-serif;
 
@@ -667,24 +671,21 @@
   }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 1240px) {
   .partners {
-    padding: 20px 12px 24px;
-    gap: 14px;
-
     .slider {
-      gap: 8px;
+      gap: 10px;
     }
 
     .navBtn {
       display: flex;
-      width: 36px;
-      height: 36px;
+      width: 40px;
+      height: 40px;
       border-radius: 10px;
 
       svg {
-        width: 20px;
-        height: 20px;
+        width: 22px;
+        height: 22px;
       }
     }
 
@@ -695,7 +696,7 @@
     .track {
       grid-template-columns: minmax(0, 1fr);
       gap: 0;
-      max-width: 100%;
+      max-width: 520px;
     }
 
     .cardSide {
@@ -704,9 +705,6 @@
 
     .card {
       min-height: 280px;
-      padding: 24px 16px;
-      gap: 12px;
-      border-radius: 18px;
       overflow: hidden;
     }
 
@@ -726,6 +724,42 @@
       animation: cardMobilePrev 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
     }
 
+    .name,
+    .description {
+      overflow-wrap: anywhere;
+    }
+  }
+}
+
+@media (max-width: 640px) {
+  .partners {
+    padding: 20px 12px 24px;
+    gap: 14px;
+
+    .slider {
+      gap: 8px;
+    }
+
+    .navBtn {
+      width: 36px;
+      height: 36px;
+
+      svg {
+        width: 20px;
+        height: 20px;
+      }
+    }
+
+    .track {
+      max-width: 100%;
+    }
+
+    .card {
+      padding: 24px 16px;
+      gap: 12px;
+      border-radius: 18px;
+    }
+
     .logo {
       width: 64px;
       height: 64px;
@@ -733,13 +767,11 @@
 
     .cardCenter .name {
       font-size: 22px;
-      overflow-wrap: anywhere;
     }
 
     .cardCenter .description {
       font-size: 15px;
       line-height: 1.45;
-      overflow-wrap: anywhere;
     }
   }
 }
@@ -759,6 +791,15 @@
 
     .cardCenter .description {
       font-size: 14px;
+    }
+  }
+}
+
+@media (min-width: 1241px) {
+  .partners {
+    .card {
+      padding-left: 18px;
+      padding-right: 18px;
     }
   }
 }

@@ -34,6 +34,7 @@ export type PartnerItem = {
   description: string;
   image_path: string | null;
   certificates?: string[];
+  short_description?: string;
   full_description?: string;
   achievement?: string;
   position: number;

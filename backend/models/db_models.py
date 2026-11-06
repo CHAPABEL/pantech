@@ -120,6 +120,7 @@ class Partner(Base, TimestampMixin):
     description: Mapped[str] = mapped_column(Text, nullable=False, default="")
     image_path: Mapped[str | None] = mapped_column(String(512), nullable=True)
     certificates: Mapped[list] = mapped_column(JSONB, nullable=False, default=list)
+    short_description: Mapped[str] = mapped_column(String(140), nullable=False, default="")
     full_description: Mapped[str] = mapped_column(Text, nullable=False, default="")
     achievement: Mapped[str] = mapped_column(Text, nullable=False, default="")
     position: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
