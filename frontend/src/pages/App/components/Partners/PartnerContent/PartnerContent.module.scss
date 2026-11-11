@@ -99,6 +99,10 @@
   color: $button-color;
   text-transform: uppercase;
   letter-spacing: 0.02em;
+
+  svg {
+    flex-shrink: 0;
+  }
 }
 
 .achievement_text {

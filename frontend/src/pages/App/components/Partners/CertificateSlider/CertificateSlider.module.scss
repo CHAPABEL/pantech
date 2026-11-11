@@ -5,8 +5,12 @@
 }
 
 .image {
-  width: 100%;
-  max-height: 460px;
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: min(420px, 45vh);
+  margin: 0 auto;
 
   object-fit: contain;
   border-radius: 14px;

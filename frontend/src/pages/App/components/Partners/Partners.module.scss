@@ -728,6 +728,20 @@
     .description {
       overflow-wrap: anywhere;
     }
+
+    .cardCenter .logo {
+      width: 100%;
+      max-width: 220px;
+      height: 96px;
+    }
+
+    .cardCenter .name {
+      font-size: 24px;
+    }
+
+    .cardCenter .description {
+      font-size: 16px;
+    }
   }
 }
 
@@ -760,17 +774,18 @@
       border-radius: 18px;
     }
 
-    .logo {
-      width: 64px;
-      height: 64px;
+    .cardCenter .logo {
+      width: 100%;
+      max-width: 200px;
+      height: 88px;
     }
 
     .cardCenter .name {
-      font-size: 22px;
+      font-size: 20px;
     }
 
     .cardCenter .description {
-      font-size: 15px;
+      font-size: 13px;
       line-height: 1.45;
     }
   }
@@ -785,12 +800,17 @@
       height: 32px;
     }
 
+    .cardCenter .logo {
+      max-width: 170px;
+      height: 76px;
+    }
+
     .cardCenter .name {
-      font-size: 20px;
+      font-size: 18px;
     }
 
     .cardCenter .description {
-      font-size: 14px;
+      font-size: 12px;
     }
   }
 }
@@ -800,6 +820,28 @@
     .card {
       padding-left: 18px;
       padding-right: 18px;
+    }
+
+    .logo {
+      width: 100%;
+      max-width: 200px;
+      height: 96px;
+    }
+
+    .cardCenter .name {
+      font-size: 26px;
+    }
+
+    .cardCenter .description {
+      font-size: 17px;
+    }
+
+    .cardSide .name {
+      font-size: 20px;
+    }
+
+    .cardSide .description {
+      font-size: 14px;
     }
   }
 }
